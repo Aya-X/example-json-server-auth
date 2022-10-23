@@ -1,0 +1,34 @@
+{
+  "users": [
+    {
+      "email": "sample@dev",
+      "password": "$2a$10$Vviu.6gs/PIqwcX4VDakNuWn/EmKieUH8FNlskgKmQfvDnvqplCmu",
+      "id": 1
+    },
+    {
+      "email": "dev@admin.me",
+      "password": "$2a$10$vvpTDyLSJVXoxp9yURfDUe0lTv7GKh5COn6yEKA/D.7Cn1bFdYQKG",
+      "id": 2
+    }
+  ],
+  "posts": [
+    {
+      "title": "《PUI PUI DRIVING SCHOOL》",
+      "body": "即將於 2022 年 10 月登場",
+      "userId": 1,
+      "id": 1
+    },
+    {
+      "title": "第 2 季慶祝",
+      "body": "月曆開賣囉",
+      "userId": 1,
+      "id": 2
+    },
+    {
+      "title": "車車路跑緊急公告",
+      "body": "由於疫情升溫，決定暫緩舉辦本次活動",
+      "userId": 1,
+      "id": 3
+    }
+  ]
+}
