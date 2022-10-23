@@ -51,7 +51,19 @@ npm run start
 
 - 資料：`<data>/db.json`
 
-- 路由`/api/posts`
+- 路由：`/api/posts`
+
+---
+
+#### feature_json-server-auth
+
+- 【版本】：加入 auth
+
+- 資料：`users`
+
+- 註冊路由：`/signup`
+
+- 登入路由：`/login`
 
 ---
 
@@ -59,9 +71,10 @@ npm run start
 
 ### Mock-Server
 
-- json-server
 - nodemon
-- clone
+- json-server
+- json-server-auth
+- jwt-decode
 
 ### 前端
 
@@ -72,5 +85,12 @@ npm run start
   - JS
 
 - axios
+
+- CKEditor-v5
+
+#### Bootstrap5
+
+- 版型來源：
+  - <https://bootstrap5.hexschool.com/docs/5.1/examples/sticky-footer-navbar/>
 
 ---
