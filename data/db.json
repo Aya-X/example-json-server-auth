@@ -4,6 +4,11 @@
       "email": "sample@dev",
       "password": "$2a$10$Vviu.6gs/PIqwcX4VDakNuWn/EmKieUH8FNlskgKmQfvDnvqplCmu",
       "id": 1
+    },
+    {
+      "email": "dev@admin.me",
+      "password": "$2a$10$vvpTDyLSJVXoxp9yURfDUe0lTv7GKh5COn6yEKA/D.7Cn1bFdYQKG",
+      "id": 2
     }
   ],
   "posts": [

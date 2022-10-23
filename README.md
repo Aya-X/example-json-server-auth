@@ -51,7 +51,19 @@ npm run start
 
 - 資料：`<data>/db.json`
 
-- 路由`/api/posts`
+- 路由：`/api/posts`
+
+---
+
+#### feature_json-server-auth
+
+- 【版本】：加入 auth
+
+- 資料：`users`
+
+- 註冊路由：`/api/signup`
+
+- 登入路由：`/api/login`
 
 ---
 
