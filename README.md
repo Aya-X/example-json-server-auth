@@ -85,4 +85,6 @@ npm run start
 
 - axios
 
+- CKEditor-v5
+
 ---
