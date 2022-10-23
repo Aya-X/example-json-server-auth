@@ -1,4 +1,11 @@
 {
+  "users": [
+    {
+      "email": "sample@dev",
+      "password": "$2a$10$Vviu.6gs/PIqwcX4VDakNuWn/EmKieUH8FNlskgKmQfvDnvqplCmu",
+      "id": 1
+    }
+  ],
   "posts": [
     {
       "title": "《PUI PUI DRIVING SCHOOL》",
