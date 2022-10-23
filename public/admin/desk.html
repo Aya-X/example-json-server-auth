@@ -104,6 +104,74 @@
       const domPostList = document.querySelector('.js-post-list');
       /* end of definition */
 
+      function goToEditPost(id) {
+        console.log('editPost:::', id);
+
+        const page = `/admin/posts/editor.html?id=${id}`;
+        console.log('page >>> ', page);
+
+        window.location.replace(page);
+      }
+      /* end of goToEditPost(id) */
+
+      function deletePost(id) {
+        console.log('deletePost:::', id);
+
+        const url = `${BASE_POST_URL}/${id}`;
+        console.log('url >>> ', url);
+
+        axios
+          .delete(url)
+          .then(function (response) {
+            // console.log('posts:::', JSON.stringify(response, null, 2));
+
+            domMsg.innerHTML = response.statusText;
+          })
+          .catch(function (error) {
+            console.log('error:::', JSON.stringify(error, null, 2));
+
+            domMsg.innerHTML = error.response.data;
+          });
+        /*  end of axios */
+
+        setTimeout(() => {
+          // history.go(0);
+          // window.location.replace(window.location.href);
+          location.reload(true);
+        }, 300);
+        /* end of setTimeout */
+      }
+      /* end of deletePost(id) */
+
+      function modifyPost(event) {
+        // console.dir(event);
+        const target = event.target;
+        const targetType = event.target.dataset.type;
+        console.log('target:::', target);
+
+        // const targetTag = event.target.closest('li');
+        const targetTag = event.target.closest('tr');
+        const targetId = targetTag.dataset.id;
+        console.log('targetId:::', typeof targetId);
+        // const targetIdInt = Number(targetId);
+        // console.log('targetIdInt:::', targetIdInt);
+
+        if (!targetType) {
+          return null;
+        }
+
+        if (targetType === 'DELETE') {
+          console.log('targetType:::', targetType);
+          return deletePost(targetId);
+        }
+
+        if (targetType === 'EDIT') {
+          console.log('targetType:::', targetType);
+          return goToEditPost(targetId);
+        }
+      }
+      /* end of modifyPost() */
+
       function postsTemplate(
         posts,
         template = `
@@ -169,6 +237,9 @@
             const htmlContent = postsTemplate(response.data);
             domPostList.innerHTML = htmlContent;
 
+            document
+              .querySelector('.js-post-list')
+              .addEventListener('click', (event) => modifyPost(event));
           })
           .catch(function (error) {
             // console.log('error:::', JSON.stringify(error, null, 2));
@@ -179,12 +250,21 @@
       }
       /* end of getPosts() */
 
+      function takeTokenFromLocal() {
+        // const userId = localStorage.getItem('userId');
+        const AUTH = `Bearer ${localStorage.getItem('token')}`;
+
+        axios.defaults.headers.common.Authorization = AUTH;
+      }
+      /* end of takeTokenFromLocal() */
+
       /**
        * #Step-0: after page refresh
        */
       function init() {
         getPosts();
 
+        takeTokenFromLocal();
       }
       /* end of init() */
 
