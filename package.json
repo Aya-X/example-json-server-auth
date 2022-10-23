@@ -6,7 +6,7 @@
   "homepage": "http://jsonplaceholder.typicode.com",
   "repository": {
     "type": "git",
-    "url": "https://github.com/typicode/jsonplaceholder.git"
+    "url": "https://github.com/Aya-X/example-json-server-auth.git"
   },
   "main": "server.js",
   "scripts": {
@@ -15,6 +15,7 @@
   "dependencies": {
     "nodemon": "2.0.20",
     "json-server": "0.17.0",
+    "json-server-auth": "^2.1.0",
     "clone": "2.1.2",
     "marked": "4.1.1"
   },
