@@ -61,9 +61,9 @@ npm run start
 
 - 資料：`users`
 
-- 註冊路由：`/api/signup`
+- 註冊路由：`/signup`
 
-- 登入路由：`/api/login`
+- 登入路由：`/login`
 
 ---
 
@@ -71,9 +71,10 @@ npm run start
 
 ### Mock-Server
 
-- json-server
 - nodemon
-- clone
+- json-server
+- json-server-auth
+- jwt-decode
 
 ### 前端
 
@@ -86,5 +87,10 @@ npm run start
 - axios
 
 - CKEditor-v5
+
+#### Bootstrap5
+
+- 版型來源：
+  - <https://bootstrap5.hexschool.com/docs/5.1/examples/sticky-footer-navbar/>
 
 ---
