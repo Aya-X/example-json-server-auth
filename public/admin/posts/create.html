@@ -138,7 +138,7 @@
       /* end of sendPostToAPI({ method, url, data }) */
 
       function submitPost(articleData, dataText) {
-        const userId = localStorage.getItem('userId');
+        // const userId = localStorage.getItem('userId');
         const AUTH = `Bearer ${localStorage.getItem('token')}`;
         axios.defaults.headers.common.Authorization = AUTH;
 
@@ -150,7 +150,7 @@
           title: `${form.title.value || Date.now()}`,
           body: articleData || '',
           plainText: dataText || '',
-          userId,
+          // userId,
         };
 
         return sendPostToAPI({ method, url, data });
