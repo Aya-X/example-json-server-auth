@@ -7,9 +7,7 @@
     <meta name="description" content="" />
     <!-- <meta name="theme-color" content="#7952b3" /> -->
 
-    <title>
-      Sticky Footer Navbar Template | Bootstrap 5
-    </title>
+    <title>HOME</title>
 
     <!-- Bootstrap CSS -->
     <link
@@ -23,6 +21,12 @@
       integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
       crossorigin="anonymous"
     />
+
+    <style>
+      * {
+        list-style: none;
+      }
+    </style>
   </head>
 
   <body class="d-flex flex-column h-100">
@@ -30,7 +34,7 @@
       <!-- Fixed navbar -->
       <nav class="navbar navbar-expand-md fixed-top navbar-light bg-light">
         <section class="container-fluid">
-          <a href="/" class="navbar-brand">Fixed navbar</a>
+          <a href="/" class="navbar-brand">這是前台首頁</a>
 
           <button
             class="navbar-toggler"
@@ -51,11 +55,7 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link" href="#">Link</a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link disabled">Disabled</a>
+                <a class="nav-link" href="/example">原版範例</a>
               </li>
             </ul>
           </div>
@@ -66,25 +66,130 @@
     <!-- Begin page content -->
     <main class="flex-shrink-0">
       <div class="container py-5">
-        <h2 class="py-5">
-          <a href="/example">Example</a>
-        </h2>
+        <h2 class="py-5">最新消息</h2>
+
+        <ul class="js-post-list row my-4">
+          <!-- <ul class="js-post-list"> -->
+          <!-- inject data from API -->
+          <pre>LOADING...</pre>
+        </ul>
       </div>
     </main>
 
+    <pre class="js-msg"></pre>
+
     <footer class="footer mt-auto py-3 bg-light">
-      <div class="container">
-        <span class="text-muted">Place sticky footer content here.</span>
+      <div class="container">        
+        <a class="nav-link text-muted" href="/admin">前往後台</a>
       </div>
     </footer>
     <!-- end of DOM -->
 
-    <!-- Bootstrap JavaScript Bundle with Popper -->
+    <!-- Bootstrap5 JavaScript Bundle with Popper -->
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
       crossorigin="anonymous"
     ></script>
+
+    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+
+    <!-- MAIN -->
+    <script>
+      // const BASE_URL = 'http://localhost:3000';
+      // const BASE_POST_URL = `${BASE_URL}/api/posts`;
+      // console.log(location.protocol);
+      const BASE_POST_URL = `/api/posts`;
+
+      const domMsg = document.querySelector('.js-msg');
+      const domPostList = document.querySelector('.js-post-list');
+      /* end of definition */
+
+      /**
+       * #Step-2: print html with post list
+       * @param { Array } posts
+       * @param { String } template
+       * @returns { String } htmlContent
+       */
+      function postsTemplate(posts, template = ``) {
+        /*
+         * #NOTE: Array().forEach() do NOT `return`
+         */
+        posts.forEach(function (post) {
+          /**
+           * - IF post.body === null
+           *   THEN return '' to display nothing
+           *
+           * @type { String } article
+           */
+          const article = post.body ? post.body : '';
+
+          template += `
+            <li
+              data-id='${post.id}'
+              class="col-sm-6 col-lg-4 mb-4"
+            >
+              <div class="card">
+                <section class="card-body">
+                  <h3 class="card-title">${post.title}</h3>
+
+                  <article class="card-text">
+                      ${article}
+                  </article>
+
+                  <p class="card-text">
+                    <small class="text-muted"><code>${post.id}</code></small>
+                  </p>
+                </section>
+              </div>
+            </div>
+          `;
+        });
+        /* end of posts.forEach() */
+        template += '</div>';
+
+        return template;
+      }
+      /* end of postsTemplate() */
+
+      /**
+       * #Step-1: `GET` data from API
+       */
+      function getPosts() {
+        const url = `${BASE_POST_URL}`;
+
+        axios
+          .get(url)
+          .then(function (response) {
+            // console.log('posts:::', JSON.stringify(response, null, 2));
+
+            // #Step-2
+            const postsData = response.data;            
+            const htmlContent = postsTemplate(postsData);
+
+            // #Step-3
+            domPostList.innerHTML = htmlContent;
+          })
+          .catch(function (error) {
+            // console.log('error:::', JSON.stringify(error, null, 2));
+
+            domMsg.innerHTML = error?.response?.status || error;
+          });
+        /*  end of axios */
+      }
+      /* end of getPosts() */
+
+      /**
+       * #Step-0: after page refresh
+       */
+      function init() {
+        getPosts();
+      }
+      /* end of init() */
+
+      // MAIN
+      init();
+    </script>
     <!-- end of script -->
   </body>
 </html>

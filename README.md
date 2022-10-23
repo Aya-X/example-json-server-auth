@@ -43,9 +43,15 @@ npm run start
 - 原版網頁移動至 `<public>/<example>` 底下
   - 原版資料集：`<data>/sample.json`
 
+---
+
 #### feature_json-server
 
 - 【版本】：顯示自訂資料到前台畫面上
+
+- 資料：`<data>/db.json`
+
+- 路由`/api/posts`
 
 ---
 
