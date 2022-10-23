@@ -1,6 +1,7 @@
 const jsonServer = require('json-server');
 const clone = require('clone');
-const data = require('./data/sample.json');
+// const data = require('./data/sample.json');
+const data = require('./data/db.json');
 
 const port = process.env.PORT || 3000;
 
@@ -29,7 +30,9 @@ server.use((req, res, next) => {
   next();
 });
 
-server.use(router);
+// Use default router
+// server.use(router);
+server.use('/api', router);
 
 server.listen(port, () => {
   console.log('JSON Server Listening on:' + port);
