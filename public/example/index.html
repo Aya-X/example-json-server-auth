@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/0.5.0/modern-normalize.min.css"
+    />
+    <link rel="stylesheet" href="./style.css" />
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css"
+    />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.5.0/css/all.css"
+      integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU"
+      crossorigin="anonymous"
+    />
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+    <title>JSON Server</title>
+  </head>
+
+  <body>
+    <header>
+      <nav class="container">
+        <ul>
+          <li><a href="/">JSON Server</a></li>
+          <li><a href="/guide.html">Guide</a></li>
+          <li><a href="https://github.com/typicode">GitHub</a></li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="container">
+        <!-- Hero -->
+  <div class="hero">
+    <div class="container">
+      <h1>
+        JSON Server
+      </h1>
+
+      <p class="subtitle">
+        Fake Online REST API for Testing and Prototyping
+      </p>
+
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="container">
+    <main>
+      <!-- Example -->
+      <h2>Example</h2>
+      <p>
+        Run this code in a console or from any site:
+      </p>
+
+      <pre><code id="example" class="javascript">fetch('/todos/1')
+  .then(response => response.json())
+  .then(json => console.log(json))
+</code></pre>
+
+      <p>
+        <button id="run-button">Try it</button>
+      </p>
+
+      <pre><code id="result" class="json"></code></pre>
+      <span id="run-message">Congrats you've made your first call! 😃 🎉</span>
+
+      <!-- Resources -->
+      <h2>Resources</h2>
+      <table class="resources">
+        <tr>
+          <td>
+            <a href="/posts">/posts</a>
+          </td>
+          <td>100 posts</td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/comments">/comments</a>
+          </td>
+          <td>500 comments</td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/albums">/albums</a>
+          </td>
+          <td>100 albums</td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/photos">/photos</a>
+          </td>
+          <td>5000 photos</td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/todos">/todos</a>
+          </td>
+          <td>200 todos</td>
+        </tr>
+        <tr>
+          <td>
+            <a href="/users">/users</a>
+          </td>
+          <td>10 users</td>
+        </tr>
+      </table>
+
+      <p>
+        <strong>Note</strong>: resources have relations. For example:
+        <b>posts</b> have many
+        <b>comments</b>,
+        <b>albums</b> have many
+        <b>photos</b>, ... see below for routes examples.
+      </p>
+
+      <!-- Routes -->
+      <h2>Routes</h2>
+      <p>
+        All HTTP methods are supported.
+      </p>
+
+      <table>
+        <tr>
+          <td>GET</td>
+          <td>
+            <a href="/posts">/posts</a>
+          </td>
+        </tr>
+        <tr>
+          <td>GET</td>
+          <td>
+            <a href="/posts/1">/posts/1</a>
+          </td>
+        </tr>
+        <tr>
+          <td>GET</td>
+          <td>
+            <a href="/posts/1/comments">/posts/1/comments</a>
+          </td>
+        </tr>
+        <tr>
+          <td>GET</td>
+          <td>
+            <a href="/comments?postId=1">/comments?postId=1</a>
+          </td>
+        </tr>
+        <tr>
+          <td>GET</td>
+          <td>
+            <a href="/posts?userId=1">/posts?userId=1</a>
+          </td>
+        </tr>
+        <tr>
+          <td>POST</td>
+          <td>/posts</td>
+        </tr>
+        <tr>
+          <td>PUT</td>
+          <td>/posts/1</td>
+        </tr>
+        <tr>
+          <td>PATCH</td>
+          <td>/posts/1</td>
+        </tr>
+        <tr>
+          <td>DELETE</td>
+          <td>/posts/1</td>
+        </tr>
+        </tr>
+      </table>
+
+      <p>
+        <strong>Note</strong>: you can view detailed examples
+        <a href="guide.html">here</a>.
+      </p>
+    </main>
+  </div>
+
+    </div>
+
+    <!-- Footer -->
+    <footer>
+      <div class="container">
+        <div style="margin-bottom: 2rem">
+
+        </div>
+        <div>
+          Coded and built with ❤️ by
+          <a href="https://github.com/typicode">typicode</a>
+          <br />Source code and CHANGELOG available on
+          <a href="https://github.com/typicode/jsonplaceholder">GitHub</a>
+        </div>
+      </div>
+    </footer>
+
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/fetch/2.0.3/fetch.min.js"></script>
+    <script>
+      // Use http or https based on location.protocol
+      var example = document.getElementById("example");
+      example.textContent = example.textContent.replace(
+        "http:",
+        location.protocol
+      );
+
+      // Highlight result element
+      var result = document.getElementById("result");
+      hljs.highlightBlock(result);
+
+      // Run example
+      var runButton = document.getElementById("run-button");
+      runButton.onclick = function() {
+        var runMessage = document.getElementById("run-message");
+
+        // Hide or disable things during API call
+        runButton.disabled = true;
+        runMessage.style.opacity = 0;
+        result.style.opacity = 0;
+
+        fetch("/todos/1")
+          .then(response => response.json())
+          .then(json => {
+            var str = JSON.stringify(json, null, "\t");
+
+            // Format result
+            result.innerHTML = str
+              .replace(/\n/g, "<br/>")
+              .replace(/\\n/g, " ")
+              .replace(/\t/g, "&nbsp;&nbsp;");
+
+            hljs.highlightBlock(result);
+
+            // Show and enable things after API call
+            runButton.disabled = false;
+            runMessage.style.opacity = 1;
+            result.style.opacity = 1;
+          });
+      };
+    </script>
+  </body>
+</html>

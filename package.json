@@ -1,0 +1,36 @@
+{
+  "name": "example-json-server",
+  "version": "0.3.3",
+  "description": "",
+  "keywords": [],
+  "homepage": "http://jsonplaceholder.typicode.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/typicode/jsonplaceholder.git"
+  },
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "dependencies": {
+    "nodemon": "2.0.20",
+    "json-server": "0.17.0",
+    "clone": "2.1.2",
+    "marked": "4.1.1"
+  },
+  "devDependencies": {
+    "nodemon": "2.0.20",
+    "Faker": "~0.5.11",
+    "husky": "^2.4.1",
+    "pupa": "^2.0.0",
+    "rosie": "~1.6.0",
+    "showdown": "^1.9.0",
+    "supertest": "^3.1.0",
+    "tape": "^4.5.1",
+    "underscore": "~1.5.2"
+  },
+  "engines": {
+    "node": "14.x"
+  },
+  "license": "MIT"
+}
