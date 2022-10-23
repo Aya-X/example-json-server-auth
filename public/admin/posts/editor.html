@@ -7,7 +7,7 @@
     <meta name="description" content="" />
     <!-- <meta name="theme-color" content="#7952b3" /> -->
 
-    <title>Create Post | Dashboard</title>
+    <title>Editor | Dashboard</title>
 
     <!-- CKEditor -->
     <script src="https://cdn.ckeditor.com/ckeditor5/35.2.1/classic/ckeditor.js"></script>
@@ -34,7 +34,7 @@
     <header>
       <!-- Fixed navbar -->
       <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
-        <section class="container-fluid">          
+        <section class="container-fluid">
           <a href="/admin/desk.html" class="navbar-brand">主控台</a>
 
           <button
@@ -67,22 +67,22 @@
     <!-- Begin page content -->
     <main class="flex-shrink-0">
       <div class="container py-5">
-        <h2 class="py-5">新增資料</h2>
+        <h2 class="py-5">編輯資料</h2>
 
         <form action="POST" class="js-form-editor">
           <input type="text" name="title" placeholder="標題" required />
-  
+
           <div id="editor">
             <p>Here goes the initial content of the editor.</p>
           </div>
-  
+
           <input
             type="button"
             value="送出"
             class="js-send-to-set-editor btn btn-primary"
           />
         </form>
-  
+
         <pre class="js-preview"></pre>
       </div>
     </main>
@@ -131,34 +131,44 @@
           .catch(function (error) {
             console.log('error:::', JSON.stringify(error, null, 2));
 
-            domMsg.innerHTML = error.response.status;
+            domMsg.innerHTML = error.response.data;
           });
         /*  end of axios */
       }
       /* end of sendPostToAPI({ method, url, data }) */
 
       function submitPost(articleData, dataText) {
-        const userId = localStorage.getItem('userId');
-        const AUTH = `Bearer ${localStorage.getItem('token')}`;
-        axios.defaults.headers.common.Authorization = AUTH;
+        const params = new URLSearchParams(document.location.search);
+        const id = params.get('id');
+        console.log('id:::', id);
 
-        const method = 'POST';
+        if (id) {
+          const userId = localStorage.getItem('userId');
+          const AUTH = `Bearer ${localStorage.getItem('token')}`;
+          axios.defaults.headers.common.Authorization = AUTH;
 
-        const url = `${BASE_POST_URL}`;
+          const method = 'PUT';
 
-        const data = {
-          title: `${form.title.value || Date.now()}`,
-          body: articleData || '',
-          plainText: dataText || '',
-          userId,
-        };
+          const url = `${BASE_POST_URL}/${id}`;
 
-        return sendPostToAPI({ method, url, data });
+          const data = {
+            title: `${form.title.value || Date.now()}`,
+            body: articleData || '',
+            plainText: dataText || '',
+            userId,
+          };
+
+          return sendPostToAPI({ method, url, data });
+        }
+        /* end of IF-id */
+
+        domMsg.innerHTML = 'Something ERROR!?';
+
+        console.log('url >>>', url);
       }
       /* submitPost(articleData, dataText) */
 
       function getEditorData(editor) {
-        // #REVIEW: weird naming of fn?
         const articleData = editor.getData();
         // console.log('getData():::', data);
         domMsg.innerHTML = articleData;
@@ -170,8 +180,58 @@
       }
       /* getEditorData(editor) */
 
+      function getPostInfo(id, editor) {
+        console.log('postId:::', id);
+
+        const url = `${BASE_POST_URL}/${id}`;
+        console.log('url >>> ', url);
+
+        axios
+          .get(url)
+          .then(function (response) {
+            // console.log('getPostInfo:::', JSON.stringify(response, null, 2));
+            domMsg.innerHTML = response.statusText;
+
+            if (response.status === 200) {
+              const postData = response.data;
+              console.log('postData:::', JSON.stringify(postData, null, 2));
+
+              form.title.value = postData.title;
+              editor.setData(`<p>${postData.body || ''}</p>`);
+            }
+            /* end of IF-OK */
+          })
+          .catch(function (error) {
+            console.log('error:::', JSON.stringify(error, null, 2));
+
+            const isLinkError = error.response;
+            if (isLinkError) {
+              domMsg.innerHTML = error.response.statusText;
+            }
+
+            const is404 = isLinkError && error.response.status === 404;
+            if (is404) {
+              window.location.replace('/admin-desk.html');
+            }
+
+            domMsg.innerHTML = error;
+          });
+        /*  end of axios */
+      }
+      /* end of getPostInfo(id, editor) */
+
       function editorHandler(editor) {
-        btnSendEditor.addEventListener('click', () => getEditorData(editor));
+        const params = new URLSearchParams(document.location.search);
+        const id = params.get('id');
+        console.log('id:::', id);
+
+        if (id) {
+          // #TODO: server have new middleware to block wrong id
+          getPostInfo(id, editor);
+
+          btnSendEditor.addEventListener('click', () => getEditorData(editor));
+        }
+        /* end of IF-TRUE */
       }
       /* end of editorHandler(editor) */
 
@@ -195,6 +255,7 @@
       // MAIN
       init();
     </script>
+
     <!-- end of script -->
   </body>
 </html>
