@@ -108,10 +108,63 @@
           />
         </form>
 
+        <!-- Button trigger modal -->
+        <button
+          type="button"
+          class="btn btn-sm px-0 py-2"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          忘記密碼？
+        </button>
       </section>
 
       <pre class="js-msg"></pre>
     </main>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"
+        aria-label="Close">
+      </button> -->
+        <div class="modal-content rounded-4 shadow">
+          <section class="modal-body p-4 text-center">
+            <!-- <h5 class="mb-0"></h5> -->
+
+            <p class="mb-0">放輕鬆，你會想起來的</p>
+          </section>
+
+          <div class="modal-footer flex-nowrap p-0">
+            <button
+              type="button"
+              class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
+              data-bs-dismiss="modal"
+            >
+              好
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-right"
+              data-bs-dismiss="modal"
+            >
+              <strong>感謝</strong>
+            </button>
+          </div>
+          <!-- end of modal-footer -->
+        </div>
+        <!-- end of modal-content -->
+      </div>
+      <!-- end of modal-dialog -->
+    </div>
+    <!-- end of modal-fade -->
 
     <footer class="footer mt-auto py-2 bg-light">
       <div class="container">
