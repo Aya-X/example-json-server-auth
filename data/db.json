@@ -9,13 +9,19 @@
       "email": "dev@admin.me",
       "password": "$2a$10$vvpTDyLSJVXoxp9yURfDUe0lTv7GKh5COn6yEKA/D.7Cn1bFdYQKG",
       "id": 2
+    },
+    {
+      "email": "ggg@gg.com",
+      "password": "$2a$10$ZVZI2VbUReGNLfkWiOyCteRqwKRtbDiRw4KL86eS6/hVSkgCBCDyi",
+      "id": 3
     }
   ],
   "posts": [
     {
       "title": "《PUI PUI DRIVING SCHOOL》",
-      "body": "即將於 2022 年 10 月登場",
-      "userId": 1,
+      "body": "<figure class=\"image\"><img src=\"/upload/擷取.JPG\"></figure><figure class=\"image\"><img src=\"/upload/pexels-eberhard-grossgasteiger-1292115.jpg\"></figure><p>&nbsp;</p>",
+      "plainText": "\n\n\nimage widget",
+      "userId": "3",
       "id": 1
     },
     {
