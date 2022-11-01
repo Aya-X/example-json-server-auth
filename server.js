@@ -1,4 +1,3 @@
-const formidable = require('formidable');
 const path = require('path');
 const fs = require('fs');
 
@@ -36,35 +35,6 @@ server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
 server.use((req, res, next) => {
-  if (req.url === '/upload/img') {
-    const form = new formidable.IncomingForm();
-
-    if (!fs.existsSync('.\\public\\upload\\')) {
-      fs.mkdirSync('.\\public\\upload');
-    }
-
-    form.uploadDir = '.\\public\\upload\\';
-    form.parse(req, function (err, fields, files) {
-      if (err) throw err;
-
-      if (files != null) {
-        const { filepath, originalFilename } = files.upload;
-        let returnPath = `/upload/${originalFilename}`;
-        let newPath = `public\\upload\\${originalFilename}`;
-
-        fs.rename(filepath, newPath, function (err) {
-          if (err) {
-            res.end('error');
-            throw Error('false');
-          } else {
-            res.json({ url: returnPath });
-          }
-        });
-      } else res.end('error');
-    });
-    return;
-  }
-
   if (req.method === 'POST') {
     const token = req.header('Authorization')
       ? req.header('Authorization').replace('Bearer ', '')
