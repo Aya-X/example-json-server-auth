@@ -1,3 +1,6 @@
+const path = require('path');
+const fs = require('fs');
+
 const jsonServer = require('json-server');
 const auth = require('json-server-auth');
 
@@ -40,7 +43,6 @@ server.use((req, res, next) => {
     if (token) {
       const decoded = jwt_decode(token);
       console.log({ token, JWT_SECRET_KEY, decoded });
-
       const intSub = Number(decoded.sub);
       req.body.userId = intSub;
     }
