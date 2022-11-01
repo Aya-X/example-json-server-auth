@@ -1,178 +1,169 @@
 <!DOCTYPE html>
 
 <html lang="zh-Hant-TW" class="h-100">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="" />
-    <!-- <meta name="theme-color" content="#7952b3" /> -->
 
-    <title>Desk</title>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="" />
+  <!-- <meta name="theme-color" content="#7952b3" /> -->
 
-    <!-- Bootstrap CSS -->
-    <link
-      rel="canonical"
-      href="https://bootstrap5.hexschool.com/docs/5.1/examples/sticky-footer-navbar/"
-    />
+  <title>Desk</title>
 
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
-      crossorigin="anonymous"
-    />
+  <!-- Bootstrap CSS -->
+  <link rel="canonical"
+    href="https://bootstrap5.hexschool.com/docs/5.1/examples/sticky-footer-navbar/" />
 
-    <style>
-      
-    </style>
-  </head>
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
+    crossorigin="anonymous" />
 
-  <body class="d-flex flex-column h-100">
-    <header>
-      <!-- Fixed navbar -->
-      <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
-        <section class="container-fluid">
-          <a href="/admin/desk.html" class="navbar-brand">這裡是主控台</a>
+  <style>
 
-          <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarCollapse"
-            aria-controls="navbarCollapse"
-            aria-expanded="false"
-            aria-label="Toggle navigation"
-          >
-            <span class="navbar-toggler-icon"></span>
-          </button>
+  </style>
+</head>
 
-          <div class="collapse navbar-collapse" id="navbarCollapse">
-            <ul class="navbar-nav me-auto mb-2 mb-md-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
-              </li>
+<body class="d-flex flex-column h-100">
+  <header>
+    <!-- Fixed navbar -->
+    <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+      <section class="container-fluid">
+        <a href="/admin/desk.html" class="navbar-brand">這裡是主控台</a>
 
-              <li class="nav-item">
-                <a class="nav-link" href="/example">原版範例</a>
-              </li>
-            </ul>
-          </div>
-        </section>
-      </nav>
-    </header>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+          data-bs-target="#navbarCollapse" aria-controls="navbarCollapse"
+          aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
 
-    <!-- Begin page content -->
-    <main class="flex-shrink-0">
-      <div class="container py-5">
-        <h2 class="py-5">
-          <a href="/admin/posts/create.html" class="block">新增文章-GO!</a>
-        </h2>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav me-auto mb-2 mb-md-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/">Home</a>
+            </li>
 
-        <section class="js-post-list">
-          <!-- inject data from API -->
-          <pre>LOADING...</pre>
-        </section>
-      </div>
-    </main>
+            <li class="nav-item">
+              <a class="nav-link" href="/example">原版範例</a>
+            </li>
+          </ul>
+        </div>
+      </section>
+    </nav>
+  </header>
 
-    <pre class="js-msg"></pre>
+  <!-- Begin page content -->
+  <main class="flex-shrink-0">
+    <div class="container py-5">
+      <h2 class="py-5">
+        <a href="/admin/posts/create.html" class="block">新增文章-GO!</a>
+      </h2>
 
-    <footer class="footer mt-auto py-3 bg-light">
-      <div class="container">
-        <a class="nav-link text-muted" href="/admin">回到後台入口</a>
-      </div>
-    </footer>
-    <!-- end of DOM -->
+      <section class="js-post-list">
+        <!-- inject data from API -->
+        <pre>LOADING...</pre>
+      </section>
+    </div>
+  </main>
 
-    <!-- Bootstrap5 JavaScript Bundle with Popper -->
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
-      crossorigin="anonymous"
-    ></script>
+  <pre class="js-msg"></pre>
 
-    <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
+  <footer class="footer mt-auto py-3 bg-light">
+    <div class="container">
+      <a class="nav-link text-muted" href="/admin">回到後台入口</a>
+    </div>
+  </footer>
+  <!-- end of DOM -->
 
-    <script>
-      // const BASE_URL = 'http://localhost:3000';
-      // const BASE_POST_URL = `${BASE_URL}/api/posts`;
-      const BASE_POST_URL = `/api/posts`;
+  <!-- Bootstrap5 JavaScript Bundle with Popper -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+    crossorigin="anonymous"></script>
 
-      const domMsg = document.querySelector('.js-msg');
-      const domPostList = document.querySelector('.js-post-list');
-      /* end of definition */
+  <script src="https://unpkg.com/axios@1.1.2/dist/axios.min.js"></script>
 
-      function goToEditPost(id) {
-        console.log('editPost:::', id);
+  <script>
+    // const BASE_URL = 'http://localhost:3000';
+    // const BASE_POST_URL = `${BASE_URL}/api/posts`;
+    const BASE_POST_URL = `/api/posts`;
 
-        const page = `/admin/posts/editor.html?id=${id}`;
-        console.log('page >>> ', page);
+    const domMsg = document.querySelector('.js-msg');
+    const domPostList = document.querySelector('.js-post-list');
+    /* end of definition */
 
-        window.location.replace(page);
+    function goToEditPost(id) {
+      console.log('editPost:::', id);
+
+      const page = `/admin/posts/editor.html?id=${id}`;
+      console.log('page >>> ', page);
+
+      window.location.replace(page);
+    }
+    /* end of goToEditPost(id) */
+
+    function deletePost(id) {
+      console.log('deletePost:::', id);
+
+      const url = `${BASE_POST_URL}/${id}`;
+      console.log('url >>> ', url);
+
+      axios
+        .delete(url)
+        .then(function (response) {
+          // console.log('posts:::', JSON.stringify(response, null, 2));
+
+          domMsg.innerHTML = response.statusText;
+        })
+        .catch(function (error) {
+          console.log('error:::', JSON.stringify(error, null, 2));
+
+          domMsg.innerHTML = error.response.data;
+        });
+      /*  end of axios */
+
+      setTimeout(() => {
+        // history.go(0);
+        // window.location.replace(window.location.href);
+        location.reload(true);
+      }, 300);
+      /* end of setTimeout */
+    }
+    /* end of deletePost(id) */
+
+    function modifyPost(event) {
+      // console.dir(event);
+      const target = event.target;
+      const targetType = event.target.dataset.type;
+      console.log('target:::', target);
+
+      // const targetTag = event.target.closest('li');
+      const targetTag = event.target.closest('tr');
+      const targetId = targetTag.dataset.id;
+      console.log('targetId:::', typeof targetId);
+      // const targetIdInt = Number(targetId);
+      // console.log('targetIdInt:::', targetIdInt);
+
+      if (!targetType) {
+        return null;
       }
-      /* end of goToEditPost(id) */
 
-      function deletePost(id) {
-        console.log('deletePost:::', id);
-
-        const url = `${BASE_POST_URL}/${id}`;
-        console.log('url >>> ', url);
-
-        axios
-          .delete(url)
-          .then(function (response) {
-            // console.log('posts:::', JSON.stringify(response, null, 2));
-
-            domMsg.innerHTML = response.statusText;
-          })
-          .catch(function (error) {
-            console.log('error:::', JSON.stringify(error, null, 2));
-
-            domMsg.innerHTML = error.response.data;
-          });
-        /*  end of axios */
-
-        setTimeout(() => {
-          // history.go(0);
-          // window.location.replace(window.location.href);
-          location.reload(true);
-        }, 300);
-        /* end of setTimeout */
+      if (targetType === 'DELETE') {
+        console.log('targetType:::', targetType);
+        return deletePost(targetId);
       }
-      /* end of deletePost(id) */
 
-      function modifyPost(event) {
-        // console.dir(event);
-        const target = event.target;
-        const targetType = event.target.dataset.type;
-        console.log('target:::', target);
-
-        // const targetTag = event.target.closest('li');
-        const targetTag = event.target.closest('tr');
-        const targetId = targetTag.dataset.id;
-        console.log('targetId:::', typeof targetId);
-        // const targetIdInt = Number(targetId);
-        // console.log('targetIdInt:::', targetIdInt);
-
-        if (!targetType) {
-          return null;
-        }
-
-        if (targetType === 'DELETE') {
-          console.log('targetType:::', targetType);
-          return deletePost(targetId);
-        }
-
-        if (targetType === 'EDIT') {
-          console.log('targetType:::', targetType);
-          return goToEditPost(targetId);
-        }
+      if (targetType === 'EDIT') {
+        console.log('targetType:::', targetType);
+        return goToEditPost(targetId);
       }
-      /* end of modifyPost() */
+    }
+    /* end of modifyPost() */
 
-      function postsTemplate(
-        posts,
-        template = `
+    function postsTemplate(
+      posts,
+      template = `
       <div class="table-responsive">
         <table class="js-post-list  table align-middle table-sm table-hover">
           <thead class="table-light text-center">
@@ -180,18 +171,17 @@
               <th scope="col">#</th>
               <th scope="col">標題</th>
               <th scope="col">內文</th>
-              <th scope="col"></th>
-              <th scope="col"></th>
+              <th scope="col"></th>              
             </tr>
           </thead>
 
           <tbody class="">
       `
-      ) {
-        posts.forEach((post) => {
-          const article = post.body ? post.body : '';
+    ) {
+      posts.forEach((post) => {
+        const article = post.body ? post.body : '';
 
-          template += `
+        template += `
             <tr  data-id="${post.id}">
               <th scope="row">
                 <code>${post.id}</code>
@@ -203,72 +193,76 @@
               <td>
                 <article>${article}</article>
               </td>
+
               <td>
-                <input data-type="DELETE"
-                  class="js-delete  btn btn-outline-danger" type="button" value="刪除">
-              </td>
-              <td>
-                <input data-type="EDIT"
-                  class="js-edit  btn btn-warning" type="button" value="編輯">
-              </td>
+                <div class="btn-group" role="group" aria-label="Basic mixed styles example">
+                  
+                  <input data-type="DELETE"
+                  class="js-delete  btn btn-sm btn-outline-danger" type="button" value="刪除">
+
+                  <input data-type="EDIT"
+                  class="js-edit  btn btn-sm btn-warning" type="button" value="編輯">                  
+                </div>
+              </td>              
             </tr>        
         `;
-        });
+      });
 
-        template += `
+      template += `
           </tbody>
         </table>
       </div>
       `;
 
-        return template;
-      }
-      /* end of postsTemplate() */
+      return template;
+    }
+    /* end of postsTemplate() */
 
-      function getPosts() {
-        const url = `${BASE_POST_URL}`;
+    function getPosts() {
+      const url = `${BASE_POST_URL}`;
 
-        axios
-          .get(url)
-          .then(function (response) {
-            // console.log('posts:::', JSON.stringify(response, null, 2));
-            const htmlContent = postsTemplate(response.data);
-            domPostList.innerHTML = htmlContent;
+      axios
+        .get(url)
+        .then(function (response) {
+          // console.log('posts:::', JSON.stringify(response, null, 2));
+          const htmlContent = postsTemplate(response.data);
+          domPostList.innerHTML = htmlContent;
 
-            document
-              .querySelector('.js-post-list')
-              .addEventListener('click', (event) => modifyPost(event));
-          })
-          .catch(function (error) {
-            // console.log('error:::', JSON.stringify(error, null, 2));
+          document
+            .querySelector('.js-post-list')
+            .addEventListener('click', (event) => modifyPost(event));
+        })
+        .catch(function (error) {
+          // console.log('error:::', JSON.stringify(error, null, 2));
 
-            domMsg.innerHTML = error.response.status;
-          });
-        /*  end of axios */
-      }
-      /* end of getPosts() */
+          domMsg.innerHTML = error.response.status;
+        });
+      /*  end of axios */
+    }
+    /* end of getPosts() */
 
-      function takeTokenFromLocal() {
-        // const userId = localStorage.getItem('userId');
-        const AUTH = `Bearer ${localStorage.getItem('token')}`;
+    function takeTokenFromLocal() {
+      // const userId = localStorage.getItem('userId');
+      const AUTH = `Bearer ${localStorage.getItem('token')}`;
 
-        axios.defaults.headers.common.Authorization = AUTH;
-      }
-      /* end of takeTokenFromLocal() */
+      axios.defaults.headers.common.Authorization = AUTH;
+    }
+    /* end of takeTokenFromLocal() */
 
-      /**
-       * #Step-0: after page refresh
-       */
-      function init() {
-        getPosts();
+    /**
+     * #Step-0: after page refresh
+     */
+    function init() {
+      getPosts();
 
-        takeTokenFromLocal();
-      }
-      /* end of init() */
+      takeTokenFromLocal();
+    }
+    /* end of init() */
 
-      // MAIN
-      init();
-    </script>
-    <!-- end of script -->
-  </body>
+    // MAIN
+    init();
+  </script>
+  <!-- end of script -->
+</body>
+
 </html>
