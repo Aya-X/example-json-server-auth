@@ -55,7 +55,13 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link  active" aria-current="page"  href="./playground.html">測試頁</a>
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="/playground.html"
+                >
+                  測試用
+                </a>
               </li>
 
               <li class="nav-item">
@@ -70,7 +76,7 @@
     <!-- Begin page content -->
     <main class="flex-shrink-0">
       <div class="container py-5">
-        <h2 class="py-5">測試頁</h2>
+        <h2 class="pt-4 pb-1">實驗場</h2>
 
         <input
           type="button"
@@ -82,6 +88,14 @@
           type="button"
           value="登入"
           class="js-btn-login btn btn-primary"
+        />
+
+        <hr />
+
+        <input
+          type="button"
+          value="後台登入"
+          class="js-btn-signin btn btn-warning"
         />
       </div>
     </main>
@@ -109,9 +123,52 @@
       const SIGNUP_URL = '/signup';
       const LOGIN_URL = '/login';
 
+      const SIGNIN_URL = '/signin';
+
       const domMsg = document.querySelector('.js-msg');
       const btnSignup = document.querySelector('.js-btn-signup');
       const btnLogin = document.querySelector('.js-btn-login');
+
+      const btnSignin = document.querySelector('.js-btn-signin');
+      /* end of definition */
+
+      function signin() {
+        console.log('SignIn!');
+
+        const url = `${SIGNIN_URL}`;
+        const data = {
+          email: 'sample@dev',
+          password: '12345678',
+        };
+
+        axios
+          .post(url, data)
+          .then(function (response) {
+            console.log('login:::', JSON.stringify(response, null, 2));
+
+            domMsg.innerHTML = response.statusText;
+          })
+          .catch(function (error) {
+            console.log('error:::', JSON.stringify(error, null, 2));
+            console.log(
+              'error?.response:::',
+              JSON.stringify(error?.response, null, 2)
+            );
+            /**
+             * - error: others
+             * - error?.code: AxiosError
+             * - error?.message: AxiosError
+             * - error?.response?.statusText: AxiosError
+             * - error?.response?.data : SERVER CUSTOM ERROR
+             */
+            const errMsg =
+              error?.response?.data?.message || error?.message || error;
+
+            domMsg.innerHTML = errMsg;
+          });
+        /*  end of axios */
+      }
+      /* end of signin() */
 
       function login() {
         console.log('Login!');
@@ -173,6 +230,8 @@
         btnSignup.addEventListener('click', () => signup());
 
         btnLogin.addEventListener('click', () => login());
+
+        btnSignin.addEventListener('click', () => signin());
       }
       /* end of init() */
 
