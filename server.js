@@ -5,8 +5,8 @@ const jsonServer = require('json-server');
 const auth = require('json-server-auth');
 
 const jwt_decode = require('jwt-decode');
-const JWT_SECRET_KEY =
-  require('./node_modules/json-server-auth/dist/constants').JWT_SECRET_KEY;
+// const JWT_SECRET_KEY =
+//   require('./node_modules/json-server-auth/dist/constants').JWT_SECRET_KEY;
 
 const port = process.env.PORT || 3000;
 
@@ -23,6 +23,50 @@ const rules = auth.rewriter({
   // Other rules
   // '/posts/:category': '/posts?category=:category',
 });
+/* end of auth-rules */
+
+const writableMethods = ['POST', 'PUT', 'PATCH', 'DELETE'];
+/* end of definitions */
+
+function decodeJWTsID({ req }) {
+  console.log('decode!');
+
+  const token = req.header('Authorization')
+    ? req.header('Authorization').replace('Bearer ', '')
+    : null;
+
+  if (token) {
+    const decoded = jwt_decode(token);
+    // console.log({ token, JWT_SECRET_KEY, decoded });
+    const intSub = Number(decoded.sub);
+    console.log('subId:::', intSub);
+
+    return intSub;
+  }
+  /* end of IF-token */
+
+  return 0;
+}
+/* end of decodeJWTsID({ req }) */
+
+function isAdminAuth({ req, res, next }) {
+  console.log('isAdminAuth!');
+  const subUserId = decodeJWTsID({ req });
+
+  // #REVIEW:
+  if (subUserId !== 1) {
+    return res
+      .status(401)
+      .jsonp({ message: 'Not A ADMIN!', success: false, status: 401 });
+  }
+  /* end of IF-Id */
+  req.body.userId = subUserId || null;
+
+  return next();
+}
+/* end of isAdminAuth({ req, res, next }) */
+
+/* end of helper-function */
 
 // /!\ Bind the router db to the app server
 server.db = router.db;
@@ -34,32 +78,31 @@ server.use(middlewares);
 // You can use the one used by JSON Server
 server.use(jsonServer.bodyParser);
 
-server.use((req, res, next) => {
-  if (req.method === 'POST') {
-    const token = req.header('Authorization')
-      ? req.header('Authorization').replace('Bearer ', '')
-      : null;
+server.use('/api/posts', (req, res, next) => {
+  console.log('/api/posts!');
 
-    if (token) {
-      const decoded = jwt_decode(token);
-      console.log({ token, JWT_SECRET_KEY, decoded });
-      const intSub = Number(decoded.sub);
-      req.body.userId = intSub;
-    }
-    /* end of IF-token */
+  const isWritableMethod = writableMethods.includes(req.method);
+  if (isWritableMethod) {
+    console.log('Method:::', req.method);
+
+    return isAdminAuth({ req, res, next });
   }
+  /* end of IF-(isWritableMethod) */
+  console.log('isWritableMethod:::', isWritableMethod);
 
-  // Continue to JSON Server router
   next();
 });
-/* end of custom */
+/* end of use('/api/posts') */
 
+/* end of customs */
+
+// #REVIEWS: orders of `use()`?
 server.use(rules);
 
 // You must apply the auth middleware before the router
 server.use(auth);
 
-// Use default router
+// Use custom router
 server.use('/api', router);
 
 server.listen(port, () => {
