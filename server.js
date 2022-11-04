@@ -18,7 +18,9 @@ const rules = auth.rewriter({
   // Permission rules
   // users: 600,
   users: 640,
+
   posts: 664,
+  postLikes: 664,
 
   // Other rules
   // '/posts/:category': '/posts?category=:category',
@@ -98,6 +100,76 @@ server.post('/signin', (req, res, next) => {
   }
 
   // return isAdminAuth({ req, res, next });
+  next();
+});
+
+server.post('/api/*', (req, res, next) => {
+  console.log('POST!');
+
+  // #REVIEWS:
+  const subUserId = decodeJWTsID({ req });
+  req.body.userId = subUserId || null;
+
+  // req.body.createdAt = Date.now();
+  req.body.timestamp = Date.now();
+
+  // Continue to JSON Server router
+  next();
+});
+
+server.post('/api/postLikes', (req, res, next) => {
+  console.log('POST!');
+
+  const subUserId = decodeJWTsID({ req });
+  const reqPostId = req?.body?.postId || '';
+
+  const { db } = req.app;
+  const post = db.get('posts').find({ id: reqPostId }).value();
+  // console.log('postData:::', post);
+
+  if (!post?.likesBy) {
+    db.get('posts').find({ id: reqPostId }).assign({ likesBy: [] }).write();
+  }
+
+  const postLikes = post.likesBy.map(({ userId }) => {
+    // console.log(userId);
+    return userId;
+  });
+
+  const hasLiked = postLikes.includes(subUserId);
+  if (hasLiked) {
+    // return res
+    //   .status(400)
+    //   .jsonp({ message: '已按過讚', success: false, status: 400 });
+
+    db.get('posts')
+      .find({ id: reqPostId })
+      .get('likesBy')
+      .find({ userId: subUserId })
+      .assign({ userId: null })
+      .write();
+
+    db.get('users')
+      .find({ id: subUserId })
+      .get('likePosts')
+      .find({ postId: reqPostId })
+      .assign({ postId: null })
+      .write();
+  }
+
+  if (!hasLiked) {
+    post.likesBy.push({ userId: subUserId });
+
+    const user = db.get('users').find({ id: subUserId }).value();
+    console.log(user);
+
+    if (!user?.likePosts) {
+      db.get('users').find({ id: subUserId }).assign({ likePosts: [] }).write();
+    }
+    user.likePosts.push({ postId: reqPostId });
+  }
+
+  // Continue to JSON Server router
   next();
 });
 
