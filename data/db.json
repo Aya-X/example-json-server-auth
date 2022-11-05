@@ -30,8 +30,7 @@
       "id": 2,
       "title": "第 2 季慶祝",
       "body": "月曆開賣囉",
-      "userId": 1,
-      "likesBy": []
+      "userId": 1
     },
     {
       "id": 3,
@@ -47,8 +46,18 @@
       "userId": 3
     }
   ],
+  "bookmarks": [
+    {
+      "postId": 2,
+      "userId": 1,
+      "timestamp": 1667645206952,
+      "id": 1
+    }
+  ],
   "postLikes": [
     {
+      "//": "【測試關聯資料】_`posts.likesBy[]`x`users.likePosts[]`",
+      "//_comment": "可以先無視這個集合",
       "postId": 2,
       "userId": 1,
       "timestamp": 1667572748516,

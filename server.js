@@ -20,8 +20,9 @@ const rules = auth.rewriter({
   users: 640,
 
   posts: 664,
-  postLikes: 664,
+  bookmarks: 664,
 
+  postLikes: 664,
   // Other rules
   // '/posts/:category': '/posts?category=:category',
 });
@@ -102,6 +103,23 @@ server.post('/signin', (req, res, next) => {
   // return isAdminAuth({ req, res, next });
   next();
 });
+/* end of post('/signin*') */
+
+server.use('/api/posts', (req, res, next) => {
+  console.log('/api/posts!');
+
+  const isWritableMethod = writableMethods.includes(req.method);
+  if (isWritableMethod) {
+    console.log('Method:::', req.method);
+
+    return isAdminAuth({ req, res, next });
+  }
+  /* end of IF-(isWritableMethod) */
+  console.log('isWritableMethod:::', isWritableMethod);
+
+  next();
+});
+/* end of use('/api/posts') */
 
 server.post('/api/*', (req, res, next) => {
   console.log('POST!');
@@ -116,6 +134,7 @@ server.post('/api/*', (req, res, next) => {
   // Continue to JSON Server router
   next();
 });
+/* end of post('/api/*') */
 
 server.post('/api/postLikes', (req, res, next) => {
   console.log('POST!');
@@ -146,15 +165,26 @@ server.post('/api/postLikes', (req, res, next) => {
       .find({ id: reqPostId })
       .get('likesBy')
       .find({ userId: subUserId })
-      .assign({ userId: null })
+      .unset('userId')
       .write();
+    db.get('posts').find({ id: reqPostId }).get('likesBy').remove({}).write();
 
     db.get('users')
       .find({ id: subUserId })
       .get('likePosts')
       .find({ postId: reqPostId })
-      .assign({ postId: null })
+      .unset('postId')
       .write();
+    db.get('users').find({ id: subUserId }).get('likePosts').remove({}).write();
+
+    // console.log(
+    //   db
+    //     .get('users')
+    //     .find({ id: subUserId })
+    //     .get('likePosts')
+    //     .find({ postId: reqPostId })
+    //     .value()
+    // );
   }
 
   if (!hasLiked) {
@@ -172,24 +202,48 @@ server.post('/api/postLikes', (req, res, next) => {
   // Continue to JSON Server router
   next();
 });
+/* end of post('/api/postLikes') */
 
-server.use('/api/posts', (req, res, next) => {
-  console.log('/api/posts!');
+server.post('/api/bookmarks', (req, res, next) => {
+  console.log(`[${req.method}]_${req.url}`);
 
-  const isWritableMethod = writableMethods.includes(req.method);
-  if (isWritableMethod) {
-    console.log('Method:::', req.method);
+  const subUserId = decodeJWTsID({ req }) || null;
+  const reqPostId = req?.body?.postId || '';
 
-    return isAdminAuth({ req, res, next });
+  const { db } = req.app;
+  // Assuming the following returns an array of your object
+  const bookmarks = db.get('bookmarks').value();
+
+  const hasBookmarkedIdx = db
+    .get('bookmarks')
+    .findIndex({ userId: subUserId, postId: reqPostId })
+    .value();
+  console.log('hasBookmarkedIdx:::', hasBookmarkedIdx);
+
+  if (hasBookmarkedIdx !== -1) {
+    /**
+     * IF-exist, THEN remove it
+     */
+    const bookmarkId = bookmarks[hasBookmarkedIdx].id;
+    // console.log('bookmarkId:::', bookmarkId);
+    db.get('bookmarks').remove({ id: bookmarkId }).write();
+
+    const result = bookmarks.filter(({ userId, postId }) => {
+      // We can `filter` the key
+      return userId === subUserId && postId === reqPostId;
+    });
+    console.log('result:::', result);
   }
-  /* end of IF-(isWritableMethod) */
-  console.log('isWritableMethod:::', isWritableMethod);
+  /* end of IF-exist */
 
+  // req.body.createdAt = Date.now();
+
+  // Continue to JSON Server router
   next();
 });
-/* end of use('/api/posts') */
+/* end of post('/api/bookmarks') */
 
-/* end of customs */
+/* end of CUSTOM-use() */
 
 // #REVIEWS: orders of `use()`?
 server.use(rules);
