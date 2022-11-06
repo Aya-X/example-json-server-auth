@@ -7,7 +7,7 @@
     <meta name="description" content="" />
     <!-- <meta name="theme-color" content="#7952b3" /> -->
 
-    <title>Login | Dashboard</title>
+    <title>Login | GUEST</title>
 
     <!-- Bootstrap CSS -->
     <link
@@ -22,19 +22,47 @@
       crossorigin="anonymous"
     />
 
-    <style></style>
+    <style>
+      .circular-landscape {
+        display: inline-block;
+        position: relative;
+        width: 24px;
+        height: 24px;
+        overflow: hidden;
+        border-radius: 50%;
+
+        /* #REVIEWS */
+        /* @nest img & {
+          width: auto;
+          height: 100%;
+          margin-top: -12px;
+          margin-left: -0.25px;
+        } */
+      }
+
+      .circular-landscape img {
+        display: block;
+        width: 100%;
+        /* width: auto; */
+        height: 100%;
+        margin-left: -0.25px;
+      }
+    </style>
   </head>
 
   <body class="d-flex flex-column h-100">
-    <header>
-      <!-- Fixed navbar -->
-      <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+    <header class="sticky-top">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <!-- Container-wrapper -->
         <section class="container-fluid">
-          <a href="#" class="navbar-brand">這是後台首頁</a>
+          <!-- Navbar brand -->
+          <a class="navbar-brand me-2" href="/">LOGO</a>
 
+          <!-- Toggle button -->
           <button
-            class="navbar-toggler"
             type="button"
+            class="navbar-toggler"
             data-bs-toggle="collapse"
             data-bs-target="#navbarCollapse"
             aria-controls="navbarCollapse"
@@ -44,12 +72,9 @@
             <span class="navbar-toggler-icon"></span>
           </button>
 
+          <!-- Collapsible-wrapper -->
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
-              </li>
-
               <li class="nav-item">
                 <a
                   class="nav-link active"
@@ -64,15 +89,35 @@
                 <a class="nav-link" href="/example">原版範例</a>
               </li>
             </ul>
+            <!-- end of Left-links -->
+
+            <div class="d-flex align-items-center">
+              <ul class="navbar-nav js-user-menu">
+                <!-- #NOTE: check IF-login and inject dropdown-btns -->
+              </ul>
+              <!-- end of User-btns -->
+
+              <div>
+                <!-- #REVIEWS:  -->
+                <a href="/login.html" class="btn btn-sm text-muted px-3 me-2">
+                  登入
+                </a>
+
+                <a href="/" class="btn btn-primary btn-sm me-3">免費註冊</a>
+              </div>
+              <!-- end of GUEST-btns -->
+            </div>
           </div>
+          <!-- end of Collapsible-wrapper -->
         </section>
+        <!-- end of Container-wrapper -->
       </nav>
     </header>
 
     <!-- Begin page content -->
     <main class="flex-shrink-0">
-      <section class="container pt-5">
-        <h2 class="pt-4 pb-1">後台登入</h2>
+      <section class="container-fluid pt-3">
+        <h2 class="py-1">登入</h2>
 
         <form action="POST" class="js-form-login d-grid gap-3">
           <div class="form-group">
@@ -113,64 +158,10 @@
             class="js-btn-login btn btn-primary"
           />
         </form>
-
-        <!-- Button trigger modal -->
-        <button
-          type="button"
-          class="btn btn-sm px-0 py-2"
-          data-bs-toggle="modal"
-          data-bs-target="#exampleModal"
-        >
-          忘記密碼？
-        </button>
       </section>
 
       <pre class="js-msg"></pre>
     </main>
-
-    <!-- Modal -->
-    <div
-      class="modal fade"
-      id="exampleModal"
-      tabindex="-1"
-      aria-labelledby="exampleModalLabel"
-      aria-hidden="true"
-    >
-      <div class="modal-dialog">
-        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"
-        aria-label="Close">
-      </button> -->
-        <div class="modal-content rounded-4 shadow">
-          <section class="modal-body p-4 text-center">
-            <!-- <h5 class="mb-0"></h5> -->
-
-            <p class="mb-0">放輕鬆，你會想起來的</p>
-          </section>
-
-          <div class="modal-footer flex-nowrap p-0">
-            <button
-              type="button"
-              class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
-              data-bs-dismiss="modal"
-            >
-              好
-            </button>
-
-            <button
-              type="button"
-              class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-right"
-              data-bs-dismiss="modal"
-            >
-              <strong>感謝</strong>
-            </button>
-          </div>
-          <!-- end of modal-footer -->
-        </div>
-        <!-- end of modal-content -->
-      </div>
-      <!-- end of modal-dialog -->
-    </div>
-    <!-- end of modal-fade -->
 
     <footer class="footer mt-auto py-2 bg-light">
       <div class="container">
@@ -196,11 +187,15 @@
       const domMsg = document.querySelector('.js-msg');
       const btnLogin = document.querySelector('.js-btn-login');
       const form = document.querySelector('.js-form-login');
+
+      const btnUserMenu = document.querySelector('.js-user-menu');
       /* end of definition */
 
       function saveUserToLocal({ accessToken, user }) {
         localStorage.setItem('token', accessToken);
         localStorage.setItem('userId', user.id);
+        localStorage.setItem('nickname', user.nickname);
+        localStorage.setItem('avatar', user.avatar);
       }
       /* end of saveUserToLocal() */
 
@@ -231,7 +226,18 @@
 
               if (response.status === 200) {
                 saveUserToLocal(response.data);
-                window.location.replace('/admin/desk.html');
+
+                let redirectPath = '/';
+                const isAdmin = response.data.user.role.includes('admin');
+                if (isAdmin) {
+                  redirectPath = '/admin/desk.html';
+                }
+
+                setTimeout(() => {
+                  console.log('Redirect!');                  
+                  window.location.replace(redirectPath);
+                }, 150);
+                /* end of setTimeout */
               }
               /* end of response.OK */
             })
@@ -244,14 +250,82 @@
         }
         /* end of IF-hasInput */
 
-        domMsg.innerHTML = 'pls input data';
+        domMsg.innerHTML = '請輸入資料 (ﾉ◕ヮ◕)ﾉ';
       }
       /* end of login() */
+
+      function templateUserMenu(avatar, nickname) {
+        // avatar = 'https://i.imgur.com/PTjQZ3A.png',
+        // nickname = 'HI!',
+        return `
+          <li class="nav-item dropdown">
+            <div>
+              <!-- Avatar -->
+              <a
+                href="#"
+                class="nav-link dropdown-toggle d-flex align-items-center"
+                role="button"
+                id="navbarDropdownMenuLink"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+              <div class="circular-landscape">
+                <img
+                  src=${avatar || 'https://i.imgur.com/PTjQZ3A.png'}
+                  loading="lazy"
+                  alt="Avatar"
+                />
+              </div>
+
+                <strong class="d-none d-sm-block ms-1 px-1">
+                  ${nickname || 'HI!'}
+                </strong>
+
+              </a>
+              <!-- end of dropdown-toggle-Avatar -->
+
+              <ul
+                class="dropdown-menu"
+                aria-labelledby="navbarDropdownMenuLink"
+              >
+                <li>
+                  <a class="dropdown-item" href="#">Settings</a>
+                </li>
+
+                <li>
+                  <a class="dropdown-item" href="#">Logout</a>
+                </li>
+              </ul>
+              <!-- end of dropdown-menu -->
+            </div>
+          </li>
+        `;
+      }
+      /* end of templateUserMenu() */
+
+      function localLoginChecker() {
+        console.log('localLoginChecker!');
+        // const AUTH = `Bearer ${localStorage.getItem('token')}`;
+        const localJWT = localStorage.getItem('token');
+        // console.log(localJWT);
+
+        if (localJWT) {
+          const nickname = localStorage.getItem('nickname');
+          const avatar = localStorage.getItem('avatar');
+
+          // btnUserMenu.innerHTML = templateUserMenu({ avatar, nickname });
+          btnUserMenu.innerHTML = templateUserMenu(avatar, nickname);
+        }
+        /* end of IF-(localJWT) */
+      }
+      /* end of localLoginChecker() */
 
       /**
        * #Step-0: after page refresh
        */
       function init() {
+        localLoginChecker();
+
         btnLogin.addEventListener('click', () => login());
       }
       /* end of init() */

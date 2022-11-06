@@ -4,6 +4,12 @@
       "id": 1,
       "email": "dev@admin.me",
       "password": "$2a$10$vvpTDyLSJVXoxp9yURfDUe0lTv7GKh5COn6yEKA/D.7Cn1bFdYQKG",
+      "role": [
+        "admin",
+        "user"
+      ],
+      "nickname": "DEV",
+      "avatar": "https://i.imgur.com/PTjQZ3A.png",
       "likePosts": []
     },
     {
@@ -50,7 +56,7 @@
     {
       "postId": 2,
       "userId": 1,
-      "timestamp": 1667645206952,
+      "timestamp": 1667736492646,
       "id": 1
     }
   ],
