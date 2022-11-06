@@ -225,14 +225,20 @@ server.post('/api/bookmarks', (req, res, next) => {
      * IF-exist, THEN remove it
      */
     const bookmarkId = bookmarks[hasBookmarkedIdx].id;
-    // console.log('bookmarkId:::', bookmarkId);
-    db.get('bookmarks').remove({ id: bookmarkId }).write();
+    console.log('bookmarkId:::', bookmarkId);
 
-    const result = bookmarks.filter(({ userId, postId }) => {
-      // We can `filter` the key
-      return userId === subUserId && postId === reqPostId;
-    });
-    console.log('result:::', result);
+    const targetBookmark = db.get('bookmarks').find({ id: bookmarkId }).value();
+    db.get('bookmarks').pull(targetBookmark).write();
+
+    // db.get('bookmarks').find({ id: bookmarkId }).remove({}).write();
+    // db.get('bookmarks').remove(targetBookmark).write();
+    // db.get('bookmarks').remove({}).write();
+
+    console.log('targetBookmark:::', targetBookmark);
+
+    return res
+      .status(201)
+      .jsonp({ message: '已取消收藏', success: true, status: 201 });
   }
   /* end of IF-exist */
 
