@@ -33,6 +33,7 @@
       * {
         list-style: none;
       }
+
       .js-post-list .card {
         height: 300px;
       }
@@ -52,7 +53,7 @@
 
       .circular-landscape img {
         display: block;
-        width: 100%;
+        width: 100%;        
         height: 100%;
         margin-left: -0.25px;
       }
@@ -160,11 +161,54 @@
       // const BASE_POST_URL = `${BASE_URL}/api/posts`;
       // console.log(location.protocol);
       const BASE_POST_URL = `/api/posts`;
+      const BOOKMARKS_URL = `/api/bookmarks`;
 
       const domMsg = document.querySelector('.js-msg');
       const domPostList = document.querySelector('.js-post-list');
 
+      const btnUserMenu = document.querySelector('.js-user-menu');
       /* end of definition */
+
+      function sendBookmarks(event) {
+        console.log('sendBookmarks!');
+
+        const target = event.target;
+        const targetType = event.target.dataset.type;
+        console.log('target:::', target);
+
+        const targetId = target.dataset.id;
+        console.log(targetId);
+
+        const AUTH = `Bearer ${localStorage.getItem('token')}`;
+        axios.defaults.headers.common.Authorization = AUTH;
+
+        const url = `${BOOKMARKS_URL}`;
+
+        // TODO:
+        const data = {
+          postId: Number(targetId),
+        };
+
+        axios
+          .post(url, data)
+          .then(function (response) {
+            console.log('POST:::', JSON.stringify(response, null, 2));
+
+            domMsg.innerHTML = response?.statusText;
+
+            setTimeout(() => {
+              location.reload(true);
+            }, 300);
+            /* end of setTimeout */
+          })
+          .catch(function (error) {
+            console.log('error:::', JSON.stringify(error, null, 2));
+
+            domMsg.innerHTML = error?.response?.data || error;
+          });
+        /*  end of axios */
+      }
+      /* end of sendBookmarks() */
 
       /**
        * #Step-2: print html with post list
@@ -173,6 +217,10 @@
        * @returns { String } htmlContent
        */
       function postsTemplate(posts, template = ``) {
+        const localList = localStorage.getItem('myBookmarks');
+        const userBookmarks = JSON.parse(localList);
+        console.log(userBookmarks);
+
         /*
          * #NOTE: Array().forEach() do NOT `return`
          */
@@ -188,6 +236,9 @@
           //   <code>${post.id}</code>
           // </small>
 
+          const exist = userBookmarks?.includes(post.id);
+          console.log(exist);
+
           template += `
             <li
               data-id='${post.id}'
@@ -195,7 +246,14 @@
             >
               <div class="card">
                 <section class="card-body">
-      
+                  <fieldset class="d-flex justify-content-end align-items-center pb-2">
+                    <a href="#" 
+                      class="btn btn-outline-danger btn-sm js-btn-bookmark"
+                      data-id='${post.id}'
+                    >
+                      ${exist ? '取消收藏' : '點選收藏'}
+                    </a>
+                  </fieldset>
 
                   <h3 class="card-title">${post.title}</h3>
 
@@ -232,6 +290,10 @@
 
             // #Step-3
             domPostList.innerHTML = htmlContent;
+
+            document
+              .querySelector('.js-post-list')
+              .addEventListener('click', (event) => sendBookmarks(event));
           })
           .catch(function (error) {
             // console.log('error:::', JSON.stringify(error, null, 2));
@@ -241,6 +303,37 @@
         /*  end of axios */
       }
       /* end of getPosts() */
+
+      function getBookmarks() {
+        const localUserId = localStorage.getItem('userId');
+        // ?userId=1
+        const url = `${BOOKMARKS_URL}?userId=${localUserId}`;
+
+        axios
+          .get(url)
+          .then(function (response) {
+            console.log(
+              'GET-Bookmarks:::',
+              JSON.stringify(response.data, null, 2)
+            );
+
+            const myBookmarks = response.data.map(({ postId }) => {
+              return postId;
+            });
+            console.log(myBookmarks);
+
+            localStorage.setItem('myBookmarks', JSON.stringify(myBookmarks));
+
+            domMsg.innerHTML = response?.status;
+          })
+          .catch(function (error) {
+            // console.log('error:::', JSON.stringify(error, null, 2));
+
+            domMsg.innerHTML = error?.response?.status || error;
+          });
+        /*  end of axios */
+      }
+      /* end of getBookmarks() */
 
       function templateUserMenu(avatar, nickname) {
         // avatar = 'https://i.imgur.com/PTjQZ3A.png',
@@ -303,6 +396,8 @@
 
           // btnUserMenu.innerHTML = templateUserMenu({ avatar, nickname });
           btnUserMenu.innerHTML = templateUserMenu(avatar, nickname);
+
+          getBookmarks();
         }
         /* end of IF-(localJWT) */
       }
