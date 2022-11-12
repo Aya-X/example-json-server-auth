@@ -89,9 +89,9 @@
           <pre>LOADING...</pre>
         </section>
       </div>
-    </main>
 
-    <pre class="js-msg"></pre>
+      <pre class="js-msg"></pre>
+    </main>
 
     <footer class="footer mt-auto py-3 bg-light">
       <div class="container">
@@ -137,9 +137,10 @@
         axios
           .delete(url)
           .then(function (response) {
-            // console.log('posts:::', JSON.stringify(response, null, 2));
-
+            // console.log('DELETE:::', JSON.stringify(response, null, 2));
             domMsg.innerHTML = response.statusText;
+
+            getPosts();
           })
           .catch(function (error) {
             console.log('error:::', JSON.stringify(error, null, 2));
@@ -147,13 +148,6 @@
             domMsg.innerHTML = error.response.data;
           });
         /*  end of axios */
-
-        setTimeout(() => {
-          // history.go(0);
-          // window.location.replace(window.location.href);
-          location.reload(true);
-        }, 300);
-        /* end of setTimeout */
       }
       /* end of deletePost(id) */
 
@@ -252,10 +246,6 @@
             // console.log('posts:::', JSON.stringify(response, null, 2));
             const htmlContent = postsTemplate(response.data);
             domPostList.innerHTML = htmlContent;
-
-            document
-              .querySelector('.js-post-list')
-              .addEventListener('click', (event) => modifyPost(event));
           })
           .catch(function (error) {
             // console.log('error:::', JSON.stringify(error, null, 2));
@@ -315,6 +305,10 @@
             domMsg.innerHTML = error?.response?.status || error;
           });
         /*  end of axios */
+
+        document
+          .querySelector('.js-post-list')
+          .addEventListener('click', (event) => modifyPost(event));
       }
       /* end of init() */
 
