@@ -188,12 +188,40 @@
 
         const targetBtn = event.target.closest('button');
         console.log('targetBtn:::', targetBtn);
+
         if (!targetBtn) {
           return;
         }
 
         const targetType = targetBtn.dataset.type;
         console.log('targetType:::', targetType);
+
+        if (targetType === 'POST') {
+          const targetList = event.target.closest('li');
+          console.log('targetList:::', targetList);
+
+          const targetId = targetList.dataset.id;
+          console.log('targetId:::', targetId, typeof targetId);
+
+          const url = `${BOOKMARKS_URL}`;
+          const data = {
+            postId: Number(targetId),
+          };
+
+          axios
+            .post(url, data)
+            .then(function (response) {
+              // console.log('posts:::', JSON.stringify(response, null, 2));
+              domMsg.innerHTML = response.statusText;
+            })
+            .catch(function (error) {
+              console.log('error:::', JSON.stringify(error, null, 2));
+
+              domMsg.innerHTML = error.response.data;
+            });
+          /*  end of axios */
+        }
+        /*  end of IF-POST */
       }
       /*  end of sendBookmarks(event) */
 
