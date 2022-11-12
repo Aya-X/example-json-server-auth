@@ -15,12 +15,16 @@ const router = jsonServer.router('./data/db.json');
 const middlewares = jsonServer.defaults();
 
 const rules = auth.rewriter({
+  /**
+   * #NOTE: Use custom router with auth here
+   */
+  '/api/*': '/$1',
   // Permission rules
-  // users: 600,
-  users: 640,
+  users: 600,
+  // users: 640,
 
   posts: 664,
-  bookmarks: 664,
+  bookmarks: 600,
 
   postLikes: 664,
   // Other rules
@@ -139,13 +143,18 @@ server.post('/api/*', (req, res, next) => {
 /* end of CUSTOM-use() */
 
 // #REVIEWS: orders of `use()`?
+// You must apply the middlewares in the following order
 server.use(rules);
 
 // You must apply the auth middleware before the router
 server.use(auth);
 
-// Use custom router
-server.use('/api', router);
+server.use(router);
+/**
+ * #NOTE: custom router
+ * BUT unable to use with auth?
+ */
+// server.use('/api', router);
 
 server.listen(port, () => {
   console.log('JSON Server Listening on:' + port);
