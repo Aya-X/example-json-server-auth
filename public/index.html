@@ -213,6 +213,11 @@
             .then(function (response) {
               // console.log('posts:::', JSON.stringify(response, null, 2));
               domMsg.innerHTML = response.statusText;
+
+              if (response.status === 201) {
+                renderPosts();
+              }
+              /* end of res.ok */
             })
             .catch(function (error) {
               console.log('error:::', JSON.stringify(error, null, 2));
@@ -221,7 +226,6 @@
             });
           /*  end of axios */
         }
-        /*  end of IF-POST */
       }
       /*  end of sendBookmarks(event) */
 
