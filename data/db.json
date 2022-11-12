@@ -7,10 +7,7 @@
       "role": [
         "admin",
         "user"
-      ],
-      "nickname": "DEV",
-      "avatar": "https://i.imgur.com/PTjQZ3A.png",
-      "likePosts": []
+      ]
     },
     {
       "id": 2,
@@ -29,8 +26,7 @@
       "title": "《PUI PUI DRIVING SCHOOL》",
       "body": "<figure class=\"image\"><img src=\"https://i.imgur.com/MVwCIdy.jpg\"></figure><figure class=\"image\"><img></figure><p>&nbsp;</p>",
       "plainText": "\n\n\nimage widget",
-      "userId": 1,
-      "likesBy": []
+      "userId": 1
     },
     {
       "id": 2,
@@ -54,20 +50,16 @@
   ],
   "bookmarks": [
     {
-      "postId": 2,
+      "postId": 4,
       "userId": 1,
-      "timestamp": 1667736492646,
-      "id": 1
-    }
-  ],
-  "postLikes": [
+      "timestamp": 1668237756001,
+      "id": 8
+    },
     {
-      "//": "【測試關聯資料】_`posts.likesBy[]`x`users.likePosts[]`",
-      "//_comment": "可以先無視這個集合",
-      "postId": 2,
+      "postId": 1,
       "userId": 1,
-      "timestamp": 1667572748516,
-      "id": 1
+      "timestamp": 1668238224526,
+      "id": 11
     }
   ]
 }
