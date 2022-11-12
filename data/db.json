@@ -15,6 +15,11 @@
       "id": 3,
       "email": "ggg@gg.com",
       "password": "$2a$10$ZVZI2VbUReGNLfkWiOyCteRqwKRtbDiRw4KL86eS6/hVSkgCBCDyi"
+    },
+    {
+      "email": "g1@dev",
+      "password": "$2a$10$.9GGO9BfJi6s1mNmMVMryekKU8FYrC/OaxlT86dxz9QyzWH8Y8UKG",
+      "id": 4
     }
   ],
   "posts": [
@@ -47,12 +52,6 @@
   ],
   "bookmarks": [
     {
-      "postId": 2,
-      "userId": 1,
-      "timestamp": 1668246872665,
-      "id": 12
-    },
-    {
       "postId": 4,
       "userId": 1,
       "timestamp": 1668246891939,
@@ -69,6 +68,18 @@
       "userId": 1,
       "timestamp": 1668246947279,
       "id": 15
+    },
+    {
+      "postId": 3,
+      "userId": 1,
+      "timestamp": 1668249337728,
+      "id": 17
+    },
+    {
+      "postId": 2,
+      "userId": 2,
+      "timestamp": 1668250607254,
+      "id": 18
     }
   ]
 }
