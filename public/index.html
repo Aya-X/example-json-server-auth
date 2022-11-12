@@ -196,6 +196,29 @@
         const targetType = targetBtn.dataset.type;
         console.log('targetType:::', targetType);
 
+        if (targetType === 'DELETE') {
+          const bookId = targetBtn.dataset.bookId;
+
+          const url = `${BOOKMARKS_URL}/${bookId}`;
+
+          axios
+            .delete(url)
+            .then(function (response) {
+              // console.log('remove:::', JSON.stringify(response, null, 2));
+
+              domMsg.innerHTML = response.statusText;
+              if (response.status === 200) {
+                renderPosts();
+              }
+            })
+            .catch(function (error) {
+              console.log('error:::', JSON.stringify(error, null, 2));
+
+              domMsg.innerHTML = error.response.data;
+            });
+          /*  end of axios */
+        }
+
         if (targetType === 'POST') {
           const targetList = event.target.closest('li');
           console.log('targetList:::', targetList);
