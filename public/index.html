@@ -154,7 +154,7 @@
 
     <footer class="footer mt-auto py-3 bg-light">
       <div class="container">
-        <a class="nav-link text-muted" href="/admin">前往後台</a>
+        <!-- <a class="nav-link text-muted" href="/admin">前往後台</a> -->
       </div>
     </footer>
     <!-- end of DOM -->
@@ -413,10 +413,23 @@
       }
       /* end of renderPosts() */
 
-      function templateOfUserMenu() {
-        // avatar = 'https://i.imgur.com/PTjQZ3A.png',
-        // nickname = 'HI!',
-        return `
+      function templateOfUserMenu(user, template = '') {
+        // console.log('me:::', JSON.stringify(user, null, 2));
+        const isAdmin = user?.role === 'admin';
+        if (isAdmin) {
+          template = `
+            <li class="nav-item">
+              <div>
+                <a href="/admin/desk.html" class="btn btn-sm text-muted px-3 me-2">
+                  前往後台
+                </a>
+              </div>
+            </li>
+          `;
+        }
+        /* end of IF-(isAdmin) */
+
+        template += `
           <li class="nav-item">
             <div>
               <a href="#" class="btn btn-sm text-muted px-3 me-2">
@@ -425,7 +438,7 @@
             </div>
           </li>
 
-          <li class="nav-item dropdown">
+          <li class="nav-item">
             <div>
               <a href="#" class="js-logout btn btn-sm text-muted px-3 me-2">
                 登出
@@ -433,6 +446,8 @@
             </div>
           </li>
         `;
+
+        return template;
       }
       /* end of templateOfUserMenu() */
 
@@ -451,7 +466,7 @@
               // console.log('OK!');
               document.querySelector('.js-guest-menu').innerHTML = '';
 
-              btnUserMenu.innerHTML = templateOfUserMenu();
+              btnUserMenu.innerHTML = templateOfUserMenu(response.data);
             }
             /* end of res-OK */
           })
@@ -486,7 +501,7 @@
 
         localStorage.clear();
 
-        setTimeout(() => {
+        setTimeout(() => {          
           window.location.replace('/login.html');
         }, 300);
         /* end of setTimeout */
