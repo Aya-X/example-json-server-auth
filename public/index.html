@@ -172,7 +172,6 @@
       const btnUserMenu = document.querySelector('.js-user-menu');
       /* end of definition */
 
-
       function sendBookmarks(event) {
         console.log('sendBookmarks!');
 
@@ -225,13 +224,10 @@
        * @param { String } template
        * @returns { String } htmlContent
        */
-       function postsTemplate(posts, template = ``) {
-        const localList = localStorage.getItem('myBookmarks');
-        const userBookmarks = JSON.parse(localList);
-        console.log(userBookmarks);
-
+      function templateOfPosts(posts, template = ``) {
+        // console.log('posts:::', JSON.stringify(posts, null, 2));
         /*
-         * #NOTE: Array().forEach() do NOT `return`
+         * #NOTE: Array.forEach() do NOT `return`
          */
         posts.forEach(function (post) {
           /**
@@ -241,13 +237,12 @@
            * @type { String } article
            */
           const article = post.body ? post.body : '';
+          const bookmarks = post.bookmarks;
+          // console.log('bookmarks:::', JSON.stringify(bookmarks[0], null, 2));
+
           // <small class="text-muted">
           //   <code>${post.id}</code>
           // </small>
-
-          const exist = userBookmarks?.includes(post.id);
-          console.log(exist);
-
           template += `
             <li
               data-id='${post.id}'
@@ -255,16 +250,11 @@
             >
               <div class="card">
                 <section class="card-body">
-                  <fieldset class="d-flex justify-content-end align-items-center pb-2">
-                    <a href="#" 
-                      class="btn btn-outline-danger btn-sm js-btn-bookmark"
-                      data-id='${post.id}'
-                    >
-                      ${exist ? '取消收藏' : '點選收藏'}
-                    </a>
-                  </fieldset>
 
-                  <h3 class="card-title">${post.title}</h3>
+
+                  <h3 class="card-title  text-truncate">
+                    ${post.title}
+                  </h3>
 
                   <article class="card-text  text-truncate">
                     ${article}
@@ -272,37 +262,35 @@
 
                 </section>                
               </div>
-            </div>
+            </li>
           `;
         });
         /* end of posts.forEach() */
-        template += '</div>';
 
         return template;
       }
-      /* end of postsTemplate() */
+      /* end of templateOfPosts() */
 
       /**
        * #Step-1: `GET` data from API
        */
-      function getPosts() {
-        const url = `${BASE_POST_URL}`;
+      function renderPosts() {
+        const url = `${BASE_POST_URL}?_embed=bookmarks`;
 
         axios
           .get(url)
           .then(function (response) {
             // console.log('GET-Posts:::', JSON.stringify(response, null, 2));
 
-            // #Step-2
-            const postsData = response.data;
-            const htmlContent = postsTemplate(postsData);
+            if (response.status === 200) {
+              // #Step-2
+              const postsData = response.data;
+              const htmlContent = templateOfPosts(postsData);
 
-            // #Step-3
-            domPostList.innerHTML = htmlContent;
-
-            document
-              .querySelector('.js-post-list')
-              .addEventListener('click', (event) => sendBookmarks(event));
+              // #Step-3
+              domPostList.innerHTML = htmlContent;
+            }
+            /* end of res-OK */
           })
           .catch(function (error) {
             // console.log('error:::', JSON.stringify(error, null, 2));
@@ -311,38 +299,7 @@
           });
         /*  end of axios */
       }
-      /* end of getPosts() */
-
-      function getBookmarks() {
-        const localUserId = localStorage.getItem('userId');
-        // ?userId=1
-        const url = `${BOOKMARKS_URL}?userId=${localUserId}`;
-
-        axios
-          .get(url)
-          .then(function (response) {
-            console.log(
-              'GET-Bookmarks:::',
-              JSON.stringify(response.data, null, 2)
-            );
-
-            const myBookmarks = response.data.map(({ postId }) => {
-              return postId;
-            });
-            console.log(myBookmarks);
-
-            localStorage.setItem('myBookmarks', JSON.stringify(myBookmarks));
-
-            domMsg.innerHTML = response?.status;
-          })
-          .catch(function (error) {
-            // console.log('error:::', JSON.stringify(error, null, 2));
-
-            domMsg.innerHTML = error?.response?.status || error;
-          });
-        /*  end of axios */
-      }
-      /* end of getBookmarks() */
+      /* end of renderPosts() */
 
       function templateOfUserMenu() {
         // avatar = 'https://i.imgur.com/PTjQZ3A.png',
@@ -439,9 +396,8 @@
         }
         /* end of if-getLoggedID */
 
-        getPosts();
+        renderPosts();
 
-        
         btnUserMenu.addEventListener('click', (event) => logout(event));
       }
       /* end of init() */
