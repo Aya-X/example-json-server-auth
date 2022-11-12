@@ -182,6 +182,21 @@
       const btnUserMenu = document.querySelector('.js-user-menu');
       /* end of definition */
 
+      function sendBookmarks(event) {
+        const target = event.target;
+        console.log('target:::', target);
+
+        const targetBtn = event.target.closest('button');
+        console.log('targetBtn:::', targetBtn);
+        if (!targetBtn) {
+          return;
+        }
+
+        const targetType = targetBtn.dataset.type;
+        console.log('targetType:::', targetType);
+      }
+      /*  end of sendBookmarks(event) */
+
       function templateOfBookmarkButton(bookmarks) {
         // #Step: 0-用瀏覽器資料判斷登入狀態
         if (!getLoggedID()) {
@@ -389,7 +404,7 @@
        * #Step-0: after page refresh
        */
       function init() {
-        console.log('getLoggedID():::', getLoggedID());
+        // console.log('getLoggedID():::', getLoggedID());
         if (getLoggedID()) {
           const localToken = localStorage.getItem('token');
           const AUTH = `Bearer ${localToken}`;
@@ -401,6 +416,8 @@
         /* end of if-getLoggedID */
 
         renderPosts();
+
+        domPostList.addEventListener('click', (event) => sendBookmarks(event));
 
         btnUserMenu.addEventListener('click', (event) => logout(event));
       }
