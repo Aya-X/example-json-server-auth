@@ -125,20 +125,27 @@ server.use('/api/posts', (req, res, next) => {
 });
 /* end of use('/api/posts') */
 
-server.post('/api/*', (req, res, next) => {
-  console.log('POST!');
+server.use('/api/*', (req, res, next) => {
+  console.log('/api/*!');
 
-  // #REVIEWS:
-  const subUserId = decodeJWTsID({ req });
-  req.body.userId = subUserId || null;
+  const isWritableMethod = writableMethods.includes(req.method);
+  if (isWritableMethod) {
+    console.log('Method:::', req.method);
 
-  // req.body.createdAt = Date.now();
-  req.body.timestamp = Date.now();
+    // #REVIEWS:
+    const subUserId = decodeJWTsID({ req });
+    req.body.userId = subUserId || null;
+
+    // req.body.createdAt = Date.now();
+    req.body.timestamp = Date.now();
+  }
+  /* end of IF-(isWritableMethod) */
+  console.log('isWritableMethod:::', isWritableMethod);
 
   // Continue to JSON Server router
   next();
 });
-/* end of post('/api/*') */
+/* end of use('/api/*') */
 
 /* end of CUSTOM-use() */
 
