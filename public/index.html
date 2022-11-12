@@ -172,57 +172,37 @@
       const btnUserMenu = document.querySelector('.js-user-menu');
       /* end of definition */
 
-      function sendBookmarks(event) {
-        console.log('sendBookmarks!');
-
-        const target = event.target;
-        const targetType = event.target.dataset.type;
-        console.log('target:::', target);
-
-        const targetId = target.dataset.id;
-        console.log(targetId);
-        const intId = Number(targetId);
-
-        if (!intId) {
-          return null;
-        }
-
-        const AUTH = `Bearer ${localStorage.getItem('token')}`;
-        axios.defaults.headers.common.Authorization = AUTH;
-
-        const url = `${BOOKMARKS_URL}`;
-
-        // TODO:
-        const data = {
-          postId: intId,
-        };
-
-        // axios
-        //   .post(url, data)
-        //   .then(function (response) {
-        //     console.log('POST:::', JSON.stringify(response, null, 2));
-
-        //     domMsg.innerHTML = response?.statusText;
-
-        //     setTimeout(() => {
-        //       location.reload(true);
-        //     }, 300);
-        //     /* end of setTimeout */
-        //   })
-        //   .catch(function (error) {
-        //     console.log('error:::', JSON.stringify(error, null, 2));
-
-        //     domMsg.innerHTML = error?.response?.data || error;
-        //   });
-        /*  end of axios */
-      }
-      /* end of sendBookmarks() */
-
       function templateOfBookmarkButton(bookmarks) {
+        // #Step: 0-用瀏覽器資料判斷登入狀態
         if (!getLoggedID()) {
           return '';
         }
         console.log('bookmarks:::', bookmarks);
+
+        // #Step: 1-取出資料裡面的全部 userId
+        const usersOfBookmarks = bookmarks?.map((item) => {
+          return item.userId;
+        });
+        console.log('usersOfBookmarks:::', usersOfBookmarks);
+
+        const myUserId = Number(getLoggedID());
+        // #Step: 2-判斷有無包含自己的 `myUserId`
+        const hasBookmarked = usersOfBookmarks?.includes(myUserId);
+        console.log('hasBookmarked:::', hasBookmarked);
+
+        // #Step: 3-沒有就顯示加入的按鈕
+        if (!hasBookmarked) {
+          return `
+            <button type="button"
+              class="d-flex justify-content-end align-items-center gap-1 px-1 mb-2
+                btn btn-sm btn btn-secondary"              
+              data-type="POST"
+            >              
+              加入收藏
+            </button>
+          `;
+        }
+        /* end of if-(!hasBookmarked) */
       }
       /* end of templateOfBookmarkButton(bookmarks) */
 
