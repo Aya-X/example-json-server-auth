@@ -208,8 +208,10 @@
 
               domMsg.innerHTML = response.statusText;
               if (response.status === 200) {
+                targetBtn.disabled = false;
                 renderPosts();
               }
+              /* end of res.ok */
             })
             .catch(function (error) {
               console.log('error:::', JSON.stringify(error, null, 2));
@@ -218,8 +220,17 @@
             });
           /*  end of axios */
         }
+        /*  end of DELETE */
 
         if (targetType === 'POST') {
+          // #NOTE: disabled 避免被連點會重複發送請求
+          targetBtn.disabled = true;
+          targetBtn.innerHTML = `
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true">
+            </span>
+            Loading...
+          `;
+
           const targetList = event.target.closest('li');
           console.log('targetList:::', targetList);
 
@@ -249,6 +260,7 @@
             });
           /*  end of axios */
         }
+        /*  end of POST */
       }
       /*  end of sendBookmarks(event) */
 
