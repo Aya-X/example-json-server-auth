@@ -501,8 +501,9 @@
 
         localStorage.clear();
 
-        setTimeout(() => {          
-          window.location.replace('/login.html');
+        setTimeout(() => {
+          // window.location.replace('/login.html');
+          location.reload(true);
         }, 300);
         /* end of setTimeout */
       }
