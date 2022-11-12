@@ -197,26 +197,34 @@
           postId: intId,
         };
 
-        axios
-          .post(url, data)
-          .then(function (response) {
-            console.log('POST:::', JSON.stringify(response, null, 2));
+        // axios
+        //   .post(url, data)
+        //   .then(function (response) {
+        //     console.log('POST:::', JSON.stringify(response, null, 2));
 
-            domMsg.innerHTML = response?.statusText;
+        //     domMsg.innerHTML = response?.statusText;
 
-            setTimeout(() => {
-              location.reload(true);
-            }, 300);
-            /* end of setTimeout */
-          })
-          .catch(function (error) {
-            console.log('error:::', JSON.stringify(error, null, 2));
+        //     setTimeout(() => {
+        //       location.reload(true);
+        //     }, 300);
+        //     /* end of setTimeout */
+        //   })
+        //   .catch(function (error) {
+        //     console.log('error:::', JSON.stringify(error, null, 2));
 
-            domMsg.innerHTML = error?.response?.data || error;
-          });
+        //     domMsg.innerHTML = error?.response?.data || error;
+        //   });
         /*  end of axios */
       }
       /* end of sendBookmarks() */
+
+      function templateOfBookmarkButton(bookmarks) {
+        if (!getLoggedID()) {
+          return '';
+        }
+        console.log('bookmarks:::', bookmarks);
+      }
+      /* end of templateOfBookmarkButton(bookmarks) */
 
       /**
        * #Step-2: print html with post list
@@ -251,6 +259,9 @@
               <div class="card">
                 <section class="card-body">
 
+                  <div class="d-flex justify-content-end align-items-center p-0">
+                    ${templateOfBookmarkButton(bookmarks)}
+                  </div>
 
                   <h3 class="card-title  text-truncate">
                     ${post.title}
