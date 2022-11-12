@@ -247,7 +247,33 @@
         const hasBookmarked = usersOfBookmarks?.includes(myUserId);
         console.log('hasBookmarked:::', hasBookmarked);
 
-        // #Step: 3-沒有就顯示加入的按鈕
+        // #Step: 3.0-有存在就顯示取消的按鈕
+        if (hasBookmarked) {
+          // #Step: 3.1-過濾出該筆資料
+          const myBookmarks = bookmarks.filter((item) => {
+            return item.userId === myUserId;
+          });
+          // #Step: 3.2-取得陣列裡的物件 bookmarkId
+          const myBookmarkId = myBookmarks[0].id;
+          console.log('myBookmarkId::', myBookmarkId);
+          // #Step: 3.3-綁到取消的按鈕身上，方便傳送刪除請求
+          return `
+            <button type="button"
+              class="d-flex justify-content-end align-items-center gap-1 px-1 mb-2
+                btn btn-sm btn-outline-dark"              
+              data-type="DELETE"
+              data-book-id=${myBookmarkId}
+            >
+              取消收藏
+              <span class="material-symbols-outlined">
+                bookmark_added
+              </span>
+            </button>
+          `;
+        }
+        /* end of if-(hasBookmarked) */
+
+        // #Step: 4-沒有則顯示加入的按鈕
         if (!hasBookmarked) {
           return `
             <button type="button"
