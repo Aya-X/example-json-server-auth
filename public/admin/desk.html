@@ -265,6 +265,10 @@
        * #Step-0: after page refresh
        */
       function init() {
+        if (!getLoggedID()) {
+          window.location.replace('/');
+        }
+
         const AUTH = `Bearer ${localStorage.getItem('token')}`;
         axios.defaults.headers.common.Authorization = AUTH;
 
@@ -300,6 +304,8 @@
             if (error?.response?.status === 401) {
               console.log('401');
               localStorage.clear();
+
+              window.location.replace('/login.html');
             }
 
             domMsg.innerHTML = error?.response?.status || error;
