@@ -103,7 +103,9 @@
                   登入
                 </a>
 
-                <a href="/" class="btn btn-primary btn-sm me-3">免費註冊</a>
+                <a href="/register.html" class="btn btn-primary btn-sm me-3"
+                  >免費註冊</a
+                >
               </div>
               <!-- end of GUEST-btns -->
             </div>
@@ -165,7 +167,7 @@
 
     <footer class="footer mt-auto py-2 bg-light">
       <div class="container">
-        <a class="nav-link text-muted" href="/admin">後台入口</a>
+        <!-- <a class="nav-link text-muted" href="/admin">後台入口</a> -->
       </div>
     </footer>
     <!-- end of DOM -->
@@ -192,6 +194,12 @@
       /* end of definition */
 
       function saveUserToLocal({ accessToken, user }) {
+        // const now = Date.now();
+        // const expired = now + 1 * 1000 * 60 * 60;
+        // // const isLogin = expired > now;
+
+        // localStorage.setItem('expired', expired);
+
         localStorage.setItem('token', accessToken);
         localStorage.setItem('userId', user.id);
         localStorage.setItem('nickname', user.nickname);
@@ -228,13 +236,14 @@
                 saveUserToLocal(response.data);
 
                 let redirectPath = '/';
-                const isAdmin = response.data.user.role.includes('admin');
+                // const isAdmin = response.data?.user?.role?.includes('admin');
+                const isAdmin = response.data?.user?.role === 'admin';
                 if (isAdmin) {
                   redirectPath = '/admin/desk.html';
                 }
 
                 setTimeout(() => {
-                  console.log('Redirect!');                  
+                  console.log('Redirect!');
                   window.location.replace(redirectPath);
                 }, 150);
                 /* end of setTimeout */
@@ -263,11 +272,8 @@
               <!-- Avatar -->
               <a
                 href="#"
-                class="nav-link dropdown-toggle d-flex align-items-center"
+                class="nav-link d-flex align-items-center"
                 role="button"
-                id="navbarDropdownMenuLink"
-                data-bs-toggle="dropdown"
-                aria-expanded="false"
               >
               <div class="circular-landscape">
                 <img
@@ -284,19 +290,6 @@
               </a>
               <!-- end of dropdown-toggle-Avatar -->
 
-              <ul
-                class="dropdown-menu"
-                aria-labelledby="navbarDropdownMenuLink"
-              >
-                <li>
-                  <a class="dropdown-item" href="#">Settings</a>
-                </li>
-
-                <li>
-                  <a class="dropdown-item" href="#">Logout</a>
-                </li>
-              </ul>
-              <!-- end of dropdown-menu -->
             </div>
           </li>
         `;
