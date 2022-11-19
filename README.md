@@ -47,6 +47,17 @@
         └── uploadAdpter.js    // 【後台】編輯器串接圖庫
 ```
 
+### helpers/renderUserMenu.js
+
+- index.html、bookmarks.html 共用登入判斷
+
+- 用瀏覽器資料去 `getUser` 來確認登入狀態  
+  - 若無法取得就清空瀏覽器
+  - 代表 `token` 錯誤或過期了
+
+- 用回傳的 `user.role` 字串判斷是否為管理員
+  - 幫管理員顯示後台連結
+
 ### index.html
 
 - 同時取得全部文章、連動收藏列表
