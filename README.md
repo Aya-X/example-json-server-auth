@@ -1,15 +1,18 @@
 # example-json-server-auth
 
-## TODO
-
-- [ ] 測試部屬
-  - [ ] `HEROKU`
-
-- [ ] `CKEditor` 編輯器還吃不到圖片
+- `CKEditor` 編輯器串接圖庫
+  - 來源感謝 `WeiJ` 大大：
+    - <https://github.com/Aya-X/example-json-server-auth/pull/6>
+  - 申請：
+    - <https://github.com/WeiJ0/imgurl-token-get>
 
 ## PAGES
 
-> Created with CodeSandbox
+- <https://try-json-server-a.koyeb.app>
+  - 暫時
+
+- <https://play-json-server-auth.herokuapp.com>
+  - 已停止
 
 - <https://gpp2p2-3000.sse.codesandbox.io>
   - 不穩定，偶爾 `502-Bad`
@@ -18,35 +21,77 @@
 
 ## 概要
 
-### 前端網址
+- 目前使用的檔案
 
-#### 前台
+```markdown
+.
+├── data/
+│   └── db.json    // 資料集合
+├── server.js    // json-server
 
-- 【首頁】：`index.html`
+└── public/    // 前端網頁畫面
+    ├── index.html    // 首頁
+    ├── login.html    // 登入頁
+    ├── register.html    // 註冊頁
+    ├── me/
+    │   └── bookmarks.html    // 使用者收藏列表
 
-#### 後台
+    ├── admin/    // 【後台】
+    │   ├── desk.html    // 【後台】列表
+    │   └── posts/
+    │       ├── create.html    // 【後台】新增文章
+    │       └── editor.html    // 【後台】編輯文章
+    
+    └── helpers/
+        ├── renderUserMenu.js    // 前台判斷、顯示導覽列
+        └── uploadAdpter.js    // 【後台】編輯器串接圖庫
+```
 
-- 【後台首頁】：`/admin/index.html`
+### index.html
 
-- 【註冊】：`/admin/signup.html`
-- 【登入】：`/admin/login.html`
+- 同時取得全部文章、連動收藏列表
 
-- 【主控台】：`/admin/desk.html`
+```js
+- GET
 
-- 【新增文章】：`/admin/posts/create.html`
-- 【編輯文章】：`/admin/posts/editor.html`
+/api/posts?_embed=bookmarks
+```
 
----
+- 加入收藏
+
+```js
+- POST
+
+/api/bookmarks
+
+const data = {
+  postId
+};
+```
+
+- 移除收藏
+
+```js
+- DELETE
+
+/api/bookmarks/${bookmarkId}
+```
+
+### me/bookmarks.html
+
+- 只取得使用者自己的收藏列表、該篇文章內容
+
+```js
+- GET
+
+const url = `/api/users/${userId}/bookmarks?_expand=post`;
+```
 
 ### 後端路由
 
 - 【文章系列】：`/api/posts`
 
 - 【使用者系列】：`/api/users`
-
-- 【權限】
-  - 註冊：`/signup`
-  - 登入：`/login`
 
 - 每筆新增資料會有自己的 `id`，由套件自行產生數字
 
@@ -158,32 +203,6 @@ http://localhost:3000/
 
 ---
 
-### feature_json-server
-
-- 【版本】：顯示自訂資料到前台畫面上
-
-- 資料：`<data>/db.json`
-
-- resource：`posts`
-
-- 路由：`/api/posts`
-
-- 前台網頁：`<public>/index.html`
-
----
-
-### feature_json-server-auth
-
-- 【版本】：加入 auth 權限
-
-- resource：`users`  
-
-- 註冊路由：`/signup`
-
-- 登入路由：`/login`
-
----
-
 ## Package
 
 ### Mock-Server
@@ -205,26 +224,3 @@ http://localhost:3000/
 - axios
 
 - CKEditor-v5
-
-#### Bootstrap5
-
-- 版型來源：
-
-  - <https://bootstrap5.hexschool.com/docs/5.1/examples/sticky-footer-navbar/>
-
-- 首頁卡片列表：
-
-  - <https://bootstrap5.hexschool.com/docs/5.1/components/card/>
-
-- 後台入口：
-
-  - <https://bootstrap5.hexschool.com/docs/5.1/forms/form-control/>
-
-- 儀錶板表格：
-
-  - <https://bootstrap5.hexschool.com/docs/5.1/content/tables/>
-
-- 按鈕：
-  - <https://bootstrap5.hexschool.com/docs/5.1/components/buttons/>
-
----
