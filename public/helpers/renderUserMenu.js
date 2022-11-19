@@ -17,11 +17,20 @@ function templateOfUserMenu(user, template = '') {
           </a>
         </div>
       </li>
+
     `;
   }
   /* end of IF-(isAdmin) */
 
   template += `
+    <li class="nav-item">
+      <div>
+        <a href="/me/bookmarks.html" class="btn btn-sm text-muted px-3 me-2">
+          收藏列表
+        </a>
+      </div>
+    </li>
+
     <li class="nav-item">
       <div>
         <a href="#" class="btn btn-sm text-muted px-3 me-2">
