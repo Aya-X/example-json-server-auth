@@ -1,6 +1,3 @@
-const path = require('path');
-const fs = require('fs');
-
 const jsonServer = require('json-server');
 const auth = require('json-server-auth');
 
