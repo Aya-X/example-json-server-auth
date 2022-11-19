@@ -82,30 +82,6 @@ server.use(middlewares);
 // You can use the one used by JSON Server
 server.use(jsonServer.bodyParser);
 
-server.post('/signin', (req, res, next) => {
-  // server.post('/signin', auth, (req, res, next) => {
-  console.log('ADMIN-SIGNIN!');
-
-  console.log(req.body);
-  const reqEmail = req?.body?.email || '';
-  // console.log(req.app);
-  const { db } = req.app;
-  const user = db.get('users').find({ email: reqEmail }).value() || null;
-  // console.log(user);
-  const userId = user?.id || 0;
-  console.log('userId:::', userId);
-
-  if (userId !== 1) {
-    return res
-      .status(401)
-      .jsonp({ message: 'Not A ADMIN!', success: false, status: 401 });
-  }
-
-  // return isAdminAuth({ req, res, next });
-  next();
-});
-/* end of post('/signin*') */
-
 server.use('/api/posts', (req, res, next) => {
   console.log('/api/posts!');
 
