@@ -9,17 +9,20 @@
     {
       "id": 2,
       "email": "sample@dev",
-      "password": "$2a$10$Vviu.6gs/PIqwcX4VDakNuWn/EmKieUH8FNlskgKmQfvDnvqplCmu"
+      "password": "$2a$10$Vviu.6gs/PIqwcX4VDakNuWn/EmKieUH8FNlskgKmQfvDnvqplCmu",
+      "role": "user"      
     },
     {
       "id": 3,
       "email": "ggg@gg.com",
-      "password": "$2a$10$ZVZI2VbUReGNLfkWiOyCteRqwKRtbDiRw4KL86eS6/hVSkgCBCDyi"
+      "password": "$2a$10$ZVZI2VbUReGNLfkWiOyCteRqwKRtbDiRw4KL86eS6/hVSkgCBCDyi",
+      "role": "user"    
     },
     {
       "email": "g1@dev",
       "password": "$2a$10$.9GGO9BfJi6s1mNmMVMryekKU8FYrC/OaxlT86dxz9QyzWH8Y8UKG",
-      "id": 4
+      "id": 4,
+      "role": "user"
     }
   ],
   "posts": [
@@ -52,34 +55,34 @@
   ],
   "bookmarks": [
     {
-      "postId": 4,
+      "postId": 1,
+      "userId": 2,
+      "timestamp": 1668587285729,
+      "id": 4
+    },
+    {
+      "postId": 2,
+      "userId": 2,
+      "timestamp": 1668587287388,
+      "id": 5
+    },
+    {
+      "postId": 2,
       "userId": 1,
-      "timestamp": 1668246891939,
+      "timestamp": 1668851265795,
       "id": 13
     },
     {
-      "postId": 4,
+      "postId": 3,
       "userId": 1,
-      "timestamp": 1668246943636,
+      "timestamp": 1668851341561,
       "id": 14
     },
     {
       "postId": 4,
       "userId": 1,
-      "timestamp": 1668246947279,
+      "timestamp": 1668851343864,
       "id": 15
-    },
-    {
-      "postId": 3,
-      "userId": 1,
-      "timestamp": 1668249337728,
-      "id": 17
-    },
-    {
-      "postId": 2,
-      "userId": 2,
-      "timestamp": 1668250607254,
-      "id": 18
-    }
+    }  
   ]
 }

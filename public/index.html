@@ -292,14 +292,15 @@
           const myBookmarkId = myBookmarks[0].id;
           console.log('myBookmarkId::', myBookmarkId);
           // #Step: 3.3-綁到取消的按鈕身上，方便傳送刪除請求
+          // 取消收藏
           return `
             <button type="button"
               class="d-flex justify-content-end align-items-center gap-1 px-1 mb-2
-                btn btn-sm btn-outline-dark"              
+                btn btn-sm btn-secondary"
               data-type="DELETE"
               data-book-id=${myBookmarkId}
             >
-              取消收藏
+              已收藏
               <span class="material-symbols-outlined">
                 bookmark_added
               </span>
@@ -313,7 +314,7 @@
           return `
             <button type="button"
               class="d-flex justify-content-end align-items-center gap-1 px-1 mb-2
-                btn btn-sm btn btn-secondary"              
+                btn btn-sm btn btn-outline-dark"
               data-type="POST"
             >              
               加入收藏
@@ -372,7 +373,7 @@
                     ${article}
                   </article>
 
-                </section>                
+                </section>
               </div>
             </li>
           `;
@@ -422,6 +423,14 @@
               <div>
                 <a href="/admin/desk.html" class="btn btn-sm text-muted px-3 me-2">
                   前往後台
+                </a>
+              </div>
+            </li>
+
+            <li class="nav-item">
+              <div>
+                <a href="/me/bookmarks.html" class="btn btn-sm text-muted px-3 me-2">
+                  收藏列表
                 </a>
               </div>
             </li>
