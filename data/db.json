@@ -1,47 +1,85 @@
 {
   "users": [
     {
-      "email": "sample@dev",
-      "password": "$2a$10$Vviu.6gs/PIqwcX4VDakNuWn/EmKieUH8FNlskgKmQfvDnvqplCmu",
-      "id": 1
-    },
-    {
+      "id": 1,
       "email": "dev@admin.me",
       "password": "$2a$10$vvpTDyLSJVXoxp9yURfDUe0lTv7GKh5COn6yEKA/D.7Cn1bFdYQKG",
-      "id": 2
+      "role": "admin"
     },
     {
+      "id": 2,
+      "email": "sample@dev",
+      "password": "$2a$10$Vviu.6gs/PIqwcX4VDakNuWn/EmKieUH8FNlskgKmQfvDnvqplCmu"
+    },
+    {
+      "id": 3,
       "email": "ggg@gg.com",
-      "password": "$2a$10$ZVZI2VbUReGNLfkWiOyCteRqwKRtbDiRw4KL86eS6/hVSkgCBCDyi",
-      "id": 3
+      "password": "$2a$10$ZVZI2VbUReGNLfkWiOyCteRqwKRtbDiRw4KL86eS6/hVSkgCBCDyi"
+    },
+    {
+      "email": "g1@dev",
+      "password": "$2a$10$.9GGO9BfJi6s1mNmMVMryekKU8FYrC/OaxlT86dxz9QyzWH8Y8UKG",
+      "id": 4
     }
   ],
   "posts": [
     {
+      "id": 1,
       "title": "《PUI PUI DRIVING SCHOOL》",
       "body": "<figure class=\"image\"><img src=\"https://i.imgur.com/MVwCIdy.jpg\"></figure><figure class=\"image\"><img></figure><p>&nbsp;</p>",
       "plainText": "\n\n\nimage widget",
-      "userId": "3",
-      "id": 1
+      "userId": 1
     },
     {
+      "id": 2,
       "title": "第 2 季慶祝",
       "body": "月曆開賣囉",
-      "userId": 1,
-      "id": 2
+      "userId": 1
     },
     {
+      "id": 3,
       "title": "車車路跑緊急公告",
       "body": "由於疫情升溫，決定暫緩舉辦本次活動",
-      "userId": 1,
-      "id": 3
+      "userId": 1
     },
     {
+      "id": 4,
       "title": "test",
       "body": "<p>Here goes the initial content of the editor.</p><figure class=\"image\"><img src=\"https://i.imgur.com/FxuIhDr.jpg\"></figure>",
       "plainText": "Here goes the initial content of the editor.\n\nimage widget",
-      "userId": 3,
-      "id": 4
+      "userId": 3
+    }
+  ],
+  "bookmarks": [
+    {
+      "postId": 4,
+      "userId": 1,
+      "timestamp": 1668246891939,
+      "id": 13
+    },
+    {
+      "postId": 4,
+      "userId": 1,
+      "timestamp": 1668246943636,
+      "id": 14
+    },
+    {
+      "postId": 4,
+      "userId": 1,
+      "timestamp": 1668246947279,
+      "id": 15
+    },
+    {
+      "postId": 3,
+      "userId": 1,
+      "timestamp": 1668249337728,
+      "id": 17
+    },
+    {
+      "postId": 2,
+      "userId": 2,
+      "timestamp": 1668250607254,
+      "id": 18
     }
   ]
 }

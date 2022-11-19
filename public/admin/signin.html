@@ -7,7 +7,7 @@
     <meta name="description" content="" />
     <!-- <meta name="theme-color" content="#7952b3" /> -->
 
-    <title>Signup | Dashboard</title>
+    <title>SIGNIN | Dashboard</title>
 
     <!-- Bootstrap CSS -->
     <link
@@ -21,10 +21,6 @@
       integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU"
       crossorigin="anonymous"
     />
-
-    <style>
-
-    </style>
   </head>
 
   <body class="d-flex flex-column h-100">
@@ -73,13 +69,10 @@
 
     <!-- Begin page content -->
     <main class="flex-shrink-0">
-      <div class="container py-5">
-        <h2 class="pt-4 pb-1">後台註冊</h2>
+      <section class="container pt-5">
+        <h2 class="pt-4 pb-1">後台登入</h2>
 
-        <form action="POST" class="js-form-signup  d-grid gap-3">
-          <!-- 
-          #NOTE: form rule with div>label+input
-        -->
+        <form action="POST" class="js-form-login d-grid gap-3">
           <div class="form-group">
             <label for="exampleInputEmail1">信箱</label>
             <input
@@ -92,7 +85,7 @@
             />
 
             <!-- <small id="emailHelp" class="form-text text-muted">
-            We'll never share your email with anyone else.
+                  We'll never share your email with anyone else.
           </small> -->
           </div>
 
@@ -114,20 +107,70 @@
 
           <input
             type="button"
-            value="註冊帳號"
-            class="js-btn-signup btn btn-primary"
+            value="後台登入"
+            class="js-btn-signin btn btn-warning"
           />
-          <!-- <button id="js-signup" type="submit" class="btn btn-primary">
-          Submit
-        </button> -->
         </form>
-      </div>
-      
+
+        <!-- Button trigger modal -->
+        <button
+          type="button"
+          class="btn btn-sm px-0 py-2"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          忘記密碼？
+        </button>
+      </section>
+
       <pre class="js-msg"></pre>
     </main>
 
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <!-- <button type="button" class="btn-close" data-bs-dismiss="modal"
+        aria-label="Close">
+      </button> -->
+        <div class="modal-content rounded-4 shadow">
+          <section class="modal-body p-4 text-center">
+            <!-- <h5 class="mb-0"></h5> -->
 
-    <footer class="footer mt-auto py-3 bg-light">
+            <p class="mb-0">放輕鬆，你會想起來的</p>
+          </section>
+
+          <div class="modal-footer flex-nowrap p-0">
+            <button
+              type="button"
+              class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0"
+              data-bs-dismiss="modal"
+            >
+              好
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-lg btn-link fs-6 text-decoration-none col-6 m-0 rounded-0 border-right"
+              data-bs-dismiss="modal"
+            >
+              <strong>感謝</strong>
+            </button>
+          </div>
+          <!-- end of modal-footer -->
+        </div>
+        <!-- end of modal-content -->
+      </div>
+      <!-- end of modal-dialog -->
+    </div>
+    <!-- end of modal-fade -->
+
+    <footer class="footer mt-auto py-2 bg-light">
       <div class="container">
         <a class="nav-link text-muted" href="/admin">後台入口</a>
       </div>
@@ -145,12 +188,13 @@
 
     <script>
       // const BASE_URL = 'http://localhost:3000';
-      // const BASE_SIGNUP_URL = `${BASE_URL}/signup`;
-      const SIGNUP_URL = '/signup';
+      // const LOGIN_URL = `${BASE_URL}/login`;
+      const SIGNIN_URL = '/signin';
 
       const domMsg = document.querySelector('.js-msg');
-      const btnSignup = document.querySelector('.js-btn-signup');
-      const form = document.querySelector('.js-form-signup');
+      const btnSignin = document.querySelector('.js-btn-signin');
+
+      const form = document.querySelector('.js-form-login');
       /* end of definition */
 
       function saveUserToLocal({ accessToken, user }) {
@@ -162,12 +206,12 @@
       /**
        * #Step-1: `POST` data to API
        */
-      function signup() {
-        console.log('Signup!');
+      function signin() {
+        console.log('SignIn!');
 
-        const url = `${SIGNUP_URL}`;
+        const url = `${SIGNIN_URL}`;
         // const data = {
-        //   email: 'dev3@dev.me',
+        //   email: 'dev@admin.me',
         //   password: '12345678',
         // };
         const data = {
@@ -180,34 +224,37 @@
           return axios
             .post(url, data)
             .then(function (response) {
-              console.log('signup:::', JSON.stringify(response, null, 2));
+              console.log('signin:::', JSON.stringify(response, null, 2));
 
               domMsg.innerHTML = response.statusText;
 
-              if (response.status === 201) {
+              if (response.status === 200) {
                 saveUserToLocal(response.data);
-                window.location.replace('/admin/login.html');
+                window.location.replace('/admin/desk.html');
               }
-              /*  end of IF-OK */
+              /* end of response.OK */
             })
             .catch(function (error) {
               console.log('error:::', JSON.stringify(error, null, 2));
 
-              domMsg.innerHTML = error?.response?.data || error;
+              const errMsg =
+                error?.response?.data?.message || error?.message || error;
+
+              domMsg.innerHTML = errMsg;
             });
           /*  end of axios */
         }
         /* end of IF-hasInput */
 
-        domMsg.innerHTML = 'pls input data';
+        domMsg.innerHTML = '請輸入資料 (ﾉ◕ヮ◕)ﾉ';
       }
-      /* end of signup() */
+      /* end of login() */
 
       /**
        * #Step-0: after page refresh
        */
       function init() {
-        btnSignup.addEventListener('click', () => signup());
+        btnSignin.addEventListener('click', () => signin());
       }
       /* end of init() */
 

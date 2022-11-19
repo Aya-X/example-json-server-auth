@@ -2,6 +2,9 @@
 
 ## TODO
 
+- [ ] 測試部屬
+  - [ ] `HEROKU`
+
 - [ ] `CKEditor` 編輯器還吃不到圖片
 
 ## PAGES
