@@ -23,23 +23,67 @@
       crossorigin="anonymous"
     />
 
+    <!-- Bootstrap ICON -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.9.1/font/bootstrap-icons.css"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,1,0"
+    />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0"
+    />
+
     <style>
       * {
-        list-style: none;
+        /* list-style: none; */
+      }
+
+      .js-post-list .card {
+        height: 300px;
+      }
+
+      .card-body img {
+        width: 150px;
+        height: auto;
+      }
+
+      .circular-landscape {
+        display: inline-block;
+        position: relative;
+        width: 24px;
+        height: 24px;
+        overflow: hidden;
+        border-radius: 50%;
+      }
+
+      .circular-landscape img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        margin-left: -0.25px;
       }
     </style>
   </head>
 
   <body class="d-flex flex-column h-100">
-    <header>
-      <!-- Fixed navbar -->
-      <nav class="navbar navbar-expand-md fixed-top navbar-light bg-light">
+    <header class="sticky-top">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <!-- Container-wrapper -->
         <section class="container-fluid">
-          <a href="/" class="navbar-brand">這是前台首頁</a>
+          <!-- Navbar brand -->
+          <a class="navbar-brand me-2" href="/">LOGO</a>
 
+          <!-- Toggle button -->
           <button
-            class="navbar-toggler"
             type="button"
+            class="navbar-toggler"
             data-bs-toggle="collapse"
             data-bs-target="#navbarCollapse"
             aria-controls="navbarCollapse"
@@ -49,43 +93,68 @@
             <span class="navbar-toggler-icon"></span>
           </button>
 
+          <!-- Collapsible-wrapper -->
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
-              </li>
-
-              <li class="nav-item">
-                <a class="nav-link" href="./playground.html">測試頁</a>
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="/playground.html"
+                >
+                  測試用
+                </a>
               </li>
 
               <li class="nav-item">
                 <a class="nav-link" href="/example">原版範例</a>
               </li>
             </ul>
+            <!-- end of Left-links -->
+
+            <div class="d-flex align-items-center">
+              <ul class="navbar-nav js-user-menu">
+                <!-- #NOTE: check IF-login and inject dropdown-btns -->
+              </ul>
+              <!-- end of User-btns -->
+
+              <div class="js-guest-menu">
+                <!-- #REVIEWS:  -->
+                <a href="/login.html" class="btn btn-sm text-muted px-3 me-2">
+                  登入
+                </a>
+
+                <a href="/register.html" class="btn btn-primary btn-sm me-3"
+                  >免費註冊</a
+                >
+              </div>
+              <!-- end of GUEST-btns -->
+            </div>
           </div>
+          <!-- end of Collapsible-wrapper -->
         </section>
+        <!-- end of Container-wrapper -->
       </nav>
     </header>
 
     <!-- Begin page content -->
     <main class="flex-shrink-0">
-      <div class="container py-5">
-        <h2 class="py-5">最新消息</h2>
+      <div class="container py-2">
+        <h2 class="py-1">最新消息</h2>
 
-        <ul class="js-post-list row my-4">
+        <ul class="js-post-list my-4 row list-unstyled">
           <!-- <ul class="js-post-list"> -->
           <!-- inject data from API -->
           <pre>LOADING...</pre>
         </ul>
       </div>
-    </main>
 
-    <pre class="js-msg"></pre>
+      <pre class="js-msg"></pre>
+    </main>
 
     <footer class="footer mt-auto py-3 bg-light">
       <div class="container">
-        <a class="nav-link text-muted" href="/admin">前往後台</a>
+        <!-- <a class="nav-link text-muted" href="/admin">前往後台</a> -->
       </div>
     </footer>
     <!-- end of DOM -->
@@ -105,10 +174,158 @@
       // const BASE_POST_URL = `${BASE_URL}/api/posts`;
       // console.log(location.protocol);
       const BASE_POST_URL = `/api/posts`;
+      const BOOKMARKS_URL = `/api/bookmarks`;
 
       const domMsg = document.querySelector('.js-msg');
       const domPostList = document.querySelector('.js-post-list');
+
+      const btnUserMenu = document.querySelector('.js-user-menu');
       /* end of definition */
+
+      function sendBookmarks(event) {
+        const target = event.target;
+        console.log('target:::', target);
+
+        const targetBtn = event.target.closest('button');
+        console.log('targetBtn:::', targetBtn);
+
+        if (!targetBtn) {
+          return;
+        }
+
+        const targetType = targetBtn.dataset.type;
+        console.log('targetType:::', targetType);
+
+        if (targetType === 'DELETE') {
+          const bookId = targetBtn.dataset.bookId;
+
+          const url = `${BOOKMARKS_URL}/${bookId}`;
+
+          axios
+            .delete(url)
+            .then(function (response) {
+              // console.log('remove:::', JSON.stringify(response, null, 2));
+
+              domMsg.innerHTML = response.statusText;
+              if (response.status === 200) {
+                targetBtn.disabled = false;
+                renderPosts();
+              }
+              /* end of res.ok */
+            })
+            .catch(function (error) {
+              console.log('error:::', JSON.stringify(error, null, 2));
+
+              domMsg.innerHTML = error.response.data;
+            });
+          /*  end of axios */
+        }
+        /*  end of DELETE */
+
+        if (targetType === 'POST') {
+          // #NOTE: disabled 避免被連點會重複發送請求
+          targetBtn.disabled = true;
+          targetBtn.innerHTML = `
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true">
+            </span>
+            Loading...
+          `;
+
+          const targetList = event.target.closest('li');
+          console.log('targetList:::', targetList);
+
+          const targetId = targetList.dataset.id;
+          console.log('targetId:::', targetId, typeof targetId);
+
+          const url = `${BOOKMARKS_URL}`;
+          const data = {
+            postId: Number(targetId),
+          };
+
+          axios
+            .post(url, data)
+            .then(function (response) {
+              // console.log('posts:::', JSON.stringify(response, null, 2));
+              domMsg.innerHTML = response.statusText;
+
+              if (response.status === 201) {
+                renderPosts();
+              }
+              /* end of res.ok */
+            })
+            .catch(function (error) {
+              console.log('error:::', JSON.stringify(error, null, 2));
+
+              domMsg.innerHTML = error.response.data;
+            });
+          /*  end of axios */
+        }
+        /*  end of POST */
+      }
+      /*  end of sendBookmarks(event) */
+
+      function templateOfBookmarkButton(bookmarks) {
+        // #Step: 0-用瀏覽器資料判斷登入狀態
+        if (!getLoggedID()) {
+          return '';
+        }
+        console.log('bookmarks:::', bookmarks);
+
+        // #Step: 1-取出資料裡面的全部 userId
+        const usersOfBookmarks = bookmarks?.map((item) => {
+          return item.userId;
+        });
+        console.log('usersOfBookmarks:::', usersOfBookmarks);
+
+        const myUserId = Number(getLoggedID());
+        // #Step: 2-判斷有無包含自己的 `myUserId`
+        const hasBookmarked = usersOfBookmarks?.includes(myUserId);
+        console.log('hasBookmarked:::', hasBookmarked);
+
+        // #Step: 3.0-有存在就顯示取消的按鈕
+        if (hasBookmarked) {
+          // #Step: 3.1-過濾出該筆資料
+          const myBookmarks = bookmarks.filter((item) => {
+            return item.userId === myUserId;
+          });
+          // #Step: 3.2-取得陣列裡的物件 bookmarkId
+          const myBookmarkId = myBookmarks[0].id;
+          console.log('myBookmarkId::', myBookmarkId);
+          // #Step: 3.3-綁到取消的按鈕身上，方便傳送刪除請求
+          return `
+            <button type="button"
+              class="d-flex justify-content-end align-items-center gap-1 px-1 mb-2
+                btn btn-sm btn-outline-dark"              
+              data-type="DELETE"
+              data-book-id=${myBookmarkId}
+            >
+              取消收藏
+              <span class="material-symbols-outlined">
+                bookmark_added
+              </span>
+            </button>
+          `;
+        }
+        /* end of if-(hasBookmarked) */
+
+        // #Step: 4-沒有則顯示加入的按鈕
+        if (!hasBookmarked) {
+          return `
+            <button type="button"
+              class="d-flex justify-content-end align-items-center gap-1 px-1 mb-2
+                btn btn-sm btn btn-secondary"              
+              data-type="POST"
+            >              
+              加入收藏
+              <span class="material-symbols-outlined">
+                bookmark
+              </span>
+            </button>
+          `;
+        }
+        /* end of if-(!hasBookmarked) */
+      }
+      /* end of templateOfBookmarkButton(bookmarks) */
 
       /**
        * #Step-2: print html with post list
@@ -116,9 +333,10 @@
        * @param { String } template
        * @returns { String } htmlContent
        */
-      function postsTemplate(posts, template = ``) {
+      function templateOfPosts(posts, template = ``) {
+        // console.log('posts:::', JSON.stringify(posts, null, 2));
         /*
-         * #NOTE: Array().forEach() do NOT `return`
+         * #NOTE: Array.forEach() do NOT `return`
          */
         posts.forEach(function (post) {
           /**
@@ -128,7 +346,12 @@
            * @type { String } article
            */
           const article = post.body ? post.body : '';
+          const bookmarks = post.bookmarks;
+          // console.log('bookmarks:::', JSON.stringify(bookmarks[0], null, 2));
 
+          // <small class="text-muted">
+          //   <code>${post.id}</code>
+          // </small>
           template += `
             <li
               data-id='${post.id}'
@@ -136,44 +359,50 @@
             >
               <div class="card">
                 <section class="card-body">
-                  <h3 class="card-title">${post.title}</h3>
 
-                  <article class="card-text">
-                      ${article}
+                  <div class="d-flex justify-content-end align-items-center p-0">
+                    ${templateOfBookmarkButton(bookmarks)}
+                  </div>
+
+                  <h3 class="card-title  text-truncate">
+                    ${post.title}
+                  </h3>
+
+                  <article class="card-text  text-truncate">
+                    ${article}
                   </article>
 
-                  <p class="card-text">
-                    <small class="text-muted"><code>${post.id}</code></small>
-                  </p>
-                </section>
+                </section>                
               </div>
-            </div>
+            </li>
           `;
         });
         /* end of posts.forEach() */
-        template += '</div>';
 
         return template;
       }
-      /* end of postsTemplate() */
+      /* end of templateOfPosts() */
 
       /**
        * #Step-1: `GET` data from API
        */
-      function getPosts() {
-        const url = `${BASE_POST_URL}`;
+      function renderPosts() {
+        const url = `${BASE_POST_URL}?_embed=bookmarks`;
 
         axios
           .get(url)
           .then(function (response) {
-            // console.log('posts:::', JSON.stringify(response, null, 2));
+            // console.log('GET-Posts:::', JSON.stringify(response, null, 2));
 
-            // #Step-2
-            const postsData = response.data;
-            const htmlContent = postsTemplate(postsData);
+            if (response.status === 200) {
+              // #Step-2
+              const postsData = response.data;
+              const htmlContent = templateOfPosts(postsData);
 
-            // #Step-3
-            domPostList.innerHTML = htmlContent;
+              // #Step-3
+              domPostList.innerHTML = htmlContent;
+            }
+            /* end of res-OK */
           })
           .catch(function (error) {
             // console.log('error:::', JSON.stringify(error, null, 2));
@@ -182,13 +411,124 @@
           });
         /*  end of axios */
       }
-      /* end of getPosts() */
+      /* end of renderPosts() */
+
+      function templateOfUserMenu(user, template = '') {
+        // console.log('me:::', JSON.stringify(user, null, 2));
+        const isAdmin = user?.role === 'admin';
+        if (isAdmin) {
+          template = `
+            <li class="nav-item">
+              <div>
+                <a href="/admin/desk.html" class="btn btn-sm text-muted px-3 me-2">
+                  前往後台
+                </a>
+              </div>
+            </li>
+          `;
+        }
+        /* end of IF-(isAdmin) */
+
+        template += `
+          <li class="nav-item">
+            <div>
+              <a href="#" class="btn btn-sm text-muted px-3 me-2">
+                Hello!
+              </a>
+            </div>
+          </li>
+
+          <li class="nav-item">
+            <div>
+              <a href="#" class="js-logout btn btn-sm text-muted px-3 me-2">
+                登出
+              </a>
+            </div>
+          </li>
+        `;
+
+        return template;
+      }
+      /* end of templateOfUserMenu() */
+
+      function renderUserMenu() {
+        const userId = getLoggedID();
+        const url = `/api/users/${userId}`;
+
+        console.log('url >>> ', url);
+
+        axios
+          .get(url)
+          .then(function (response) {
+            // console.log('GET-Me:::', JSON.stringify(response, null, 2));
+
+            if (response.status === 200) {
+              // console.log('OK!');
+              document.querySelector('.js-guest-menu').innerHTML = '';
+
+              btnUserMenu.innerHTML = templateOfUserMenu(response.data);
+            }
+            /* end of res-OK */
+          })
+          .catch(function (error) {
+            // console.log('error:::', JSON.stringify(error, null, 2));
+
+            if (error?.response?.status === 401) {
+              console.log('401');
+              // localStorage.removeItem('myCat');
+              localStorage.clear();
+            }
+
+            domMsg.innerHTML = error?.response?.status || error;
+          });
+        /*  end of axios */
+      }
+      /* end of renderUserMenu() */
+
+      function getLoggedID() {
+        return localStorage.getItem('userId') || 0;
+      }
+      /* end of hasLogged() */
+
+      function logout(event) {
+        const target = event.target;
+        console.log('target:::', target);
+        const targetBtn = event.target.closest('.js-logout');
+        console.log('targetBtn:::', targetBtn);
+        if (!targetBtn) {
+          return;
+        }
+
+        localStorage.clear();
+
+        setTimeout(() => {
+          // window.location.replace('/login.html');
+          location.reload(true);
+        }, 300);
+        /* end of setTimeout */
+      }
+      /* end of logout(event) */
 
       /**
        * #Step-0: after page refresh
        */
       function init() {
-        getPosts();
+        // console.log('getLoggedID():::', getLoggedID());
+        if (getLoggedID()) {
+          const localToken = localStorage.getItem('token');
+          const AUTH = `Bearer ${localToken}`;
+
+          axios.defaults.headers.common.Authorization = AUTH;
+
+          renderUserMenu();
+        }
+        /* end of if-getLoggedID */
+
+        renderPosts();
+
+        domPostList.addEventListener('click', (event) => sendBookmarks(event));
+
+        btnUserMenu.addEventListener('click', (event) => logout(event));
       }
       /* end of init() */
 

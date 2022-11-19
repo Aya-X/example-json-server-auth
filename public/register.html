@@ -7,7 +7,7 @@
     <meta name="description" content="" />
     <!-- <meta name="theme-color" content="#7952b3" /> -->
 
-    <title>Signup | Dashboard</title>
+    <title>Register | GUEST</title>
 
     <!-- Bootstrap CSS -->
     <link
@@ -22,21 +22,22 @@
       crossorigin="anonymous"
     />
 
-    <style>
-
-    </style>
+    <style></style>
   </head>
 
   <body class="d-flex flex-column h-100">
-    <header>
-      <!-- Fixed navbar -->
-      <nav class="navbar navbar-expand-md fixed-top navbar-dark bg-dark">
+    <header class="sticky-top">
+      <!-- Navbar -->
+      <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <!-- Container-wrapper -->
         <section class="container-fluid">
-          <a href="#" class="navbar-brand">這是後台首頁</a>
+          <!-- Navbar brand -->
+          <a class="navbar-brand me-2" href="/">LOGO</a>
 
+          <!-- Toggle button -->
           <button
-            class="navbar-toggler"
             type="button"
+            class="navbar-toggler"
             data-bs-toggle="collapse"
             data-bs-target="#navbarCollapse"
             aria-controls="navbarCollapse"
@@ -46,12 +47,9 @@
             <span class="navbar-toggler-icon"></span>
           </button>
 
+          <!-- Collapsible-wrapper -->
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav me-auto mb-2 mb-md-0">
-              <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="/">Home</a>
-              </li>
-
               <li class="nav-item">
                 <a
                   class="nav-link active"
@@ -66,20 +64,40 @@
                 <a class="nav-link" href="/example">原版範例</a>
               </li>
             </ul>
+            <!-- end of Left-links -->
+
+            <div class="d-flex align-items-center">
+              <ul class="navbar-nav js-user-menu">
+                <!-- #NOTE: check IF-login and inject dropdown-btns -->
+              </ul>
+              <!-- end of User-btns -->
+
+              <div>
+                <!-- #REVIEWS:  -->
+                <a href="/login.html" class="btn btn-sm text-muted px-3 me-2">
+                  登入
+                </a>
+
+                <a href="/register.html" class="btn btn-primary btn-sm me-3">免費註冊</a>
+              </div>
+              <!-- end of GUEST-btns -->
+            </div>
           </div>
+          <!-- end of Collapsible-wrapper -->
         </section>
+        <!-- end of Container-wrapper -->
       </nav>
     </header>
 
     <!-- Begin page content -->
     <main class="flex-shrink-0">
-      <div class="container py-5">
-        <h2 class="pt-4 pb-1">後台註冊</h2>
+      <div class="container-fluid py-3">
+        <h2 class="py-1">註冊</h2>
 
-        <form action="POST" class="js-form-signup  d-grid gap-3">
+        <form action="POST" class="js-form-signup d-grid gap-3">
           <!-- 
-          #NOTE: form rule with div>label+input
-        -->
+            #NOTE: form rule with div>label+input
+          -->
           <div class="form-group">
             <label for="exampleInputEmail1">信箱</label>
             <input
@@ -122,14 +140,13 @@
         </button> -->
         </form>
       </div>
-      
+
       <pre class="js-msg"></pre>
     </main>
 
-
     <footer class="footer mt-auto py-3 bg-light">
       <div class="container">
-        <a class="nav-link text-muted" href="/admin">後台入口</a>
+        <!-- <a class="nav-link text-muted" href="/admin">後台入口</a> -->
       </div>
     </footer>
     <!-- end of DOM -->
@@ -186,7 +203,7 @@
 
               if (response.status === 201) {
                 saveUserToLocal(response.data);
-                window.location.replace('/admin/login.html');
+                window.location.replace('/login.html');
               }
               /*  end of IF-OK */
             })

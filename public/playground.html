@@ -55,7 +55,13 @@
               </li>
 
               <li class="nav-item">
-                <a class="nav-link  active" aria-current="page"  href="./playground.html">測試頁</a>
+                <a
+                  class="nav-link active"
+                  aria-current="page"
+                  href="/playground.html"
+                >
+                  測試用
+                </a>
               </li>
 
               <li class="nav-item">
@@ -70,7 +76,7 @@
     <!-- Begin page content -->
     <main class="flex-shrink-0">
       <div class="container py-5">
-        <h2 class="py-5">測試頁</h2>
+        <h2 class="pt-4 pb-1">實驗場</h2>
 
         <input
           type="button"
@@ -83,10 +89,29 @@
           value="登入"
           class="js-btn-login btn btn-primary"
         />
-      </div>
-    </main>
 
-    <pre class="js-msg"></pre>
+        <hr />
+
+        <input
+          type="button"
+          value="後台登入"
+          class="js-btn-signin btn btn-warning"
+        />
+
+        <hr />
+
+        <input
+          type="button"
+          value="POST1-COUNT"
+          class="js-btn-count btn btn-light"
+        />
+
+        <hr />
+      </div>
+
+      <pre class="js-msg"></pre>
+      <pre class="js-print"></pre>
+    </main>
 
     <footer class="footer mt-auto py-3 bg-light">
       <div class="container">
@@ -109,9 +134,58 @@
       const SIGNUP_URL = '/signup';
       const LOGIN_URL = '/login';
 
+      const SIGNIN_URL = '/signin';
+
+      const POST_LIKES_URL = '/api/postLikes';
+
       const domMsg = document.querySelector('.js-msg');
       const btnSignup = document.querySelector('.js-btn-signup');
       const btnLogin = document.querySelector('.js-btn-login');
+
+      const btnSignin = document.querySelector('.js-btn-signin');
+
+      const btnCount = document.querySelector('.js-btn-count');
+
+      const domPrint = document.querySelector('.js-print');
+      /* end of definition */
+
+      function signin() {
+        console.log('SignIn!');
+
+        const url = `${SIGNIN_URL}`;
+        const data = {
+          email: 'sample@dev',
+          password: '12345678',
+        };
+
+        axios
+          .post(url, data)
+          .then(function (response) {
+            console.log('login:::', JSON.stringify(response, null, 2));
+
+            domMsg.innerHTML = response.statusText;
+          })
+          .catch(function (error) {
+            console.log('error:::', JSON.stringify(error, null, 2));
+            console.log(
+              'error?.response:::',
+              JSON.stringify(error?.response, null, 2)
+            );
+            /**
+             * - error: others
+             * - error?.code: AxiosError
+             * - error?.message: AxiosError
+             * - error?.response?.statusText: AxiosError
+             * - error?.response?.data : SERVER CUSTOM ERROR
+             */
+            const errMsg =
+              error?.response?.data?.message || error?.message || error;
+
+            domMsg.innerHTML = errMsg;
+          });
+        /*  end of axios */
+      }
+      /* end of signin() */
 
       function login() {
         console.log('Login!');
@@ -166,6 +240,81 @@
       }
       /* end of signup() */
 
+      function sendLikes() {
+        console.log('GET-Likes!');
+
+        const AUTH = `Bearer ${localStorage.getItem('token')}`;
+        axios.defaults.headers.common.Authorization = AUTH;
+
+        const url = `${POST_LIKES_URL}`;
+
+        // TODO:
+        const data = {
+          postId: 1,
+        };
+
+        axios
+          .post(url, data)
+          .then(function (response) {
+            console.log('POST:::', JSON.stringify(response, null, 2));
+            domMsg.innerHTML = response?.statusText;
+
+            getLikes();
+            printData();
+          })
+          .catch(function (error) {
+            console.log('error:::', JSON.stringify(error, null, 2));
+
+            domMsg.innerHTML = error?.response?.data || error;
+          });
+        /*  end of axios */
+      }
+      /* end of sendLikes() */
+
+      function getLikes() {
+        console.log('GET-Likes!');
+
+        // const url = `${SIGNUP_URL}`;
+        const url = `/api/postLikes?postId=1`;
+
+        axios
+          .get(url)
+          .then(function (response) {
+            console.log('GET:::', JSON.stringify(response, null, 2));
+            domMsg.innerHTML = response?.statusText;
+
+            console.log('LIKES:::', response?.data?.length);
+            domMsg.innerHTML = response?.data?.length ?? 0;
+          })
+          .catch(function (error) {
+            console.log('error:::', JSON.stringify(error, null, 2));
+
+            domMsg.innerHTML = error?.response?.data || error;
+          });
+        /*  end of axios */
+      }
+      /* end of getLikes() */
+
+      function printData() {
+        axios
+          .get('/api/posts/1')
+          .then(function (response) {
+            console.log('POST:::', JSON.stringify(response, null, 2));
+
+            domPrint.innerHTML = `likesBy:::${JSON.stringify(
+              response.data.likesBy,
+              null,
+              2
+            )}`;
+          })
+          .catch(function (error) {
+            console.log('error:::', JSON.stringify(error, null, 2));
+
+            domMsg.innerHTML = error?.response?.data || error;
+          });
+        /*  end of axios */
+      }
+
       /**
        * #Step-0: after page refresh
        */
@@ -173,6 +322,11 @@
         btnSignup.addEventListener('click', () => signup());
 
         btnLogin.addEventListener('click', () => login());
+
+        btnSignin.addEventListener('click', () => signin());
+
+        getLikes();
+        btnCount.addEventListener('click', () => sendLikes());
       }
       /* end of init() */
 
