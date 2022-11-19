@@ -16,20 +16,15 @@
   "scripts": {
     "start": "nodemon server.js"
   },
-  "dependencies": {
-    "clone": "2.1.2",
+  "dependencies": {    
     "formidable": "^2.0.1",
     "json-server": "0.17.0",
     "json-server-auth": "^2.1.0",
-    "jwt-decode": "^3.1.2",
-    "marked": "4.1.1",
+    "jwt-decode": "^3.1.2",    
     "nodemon": "2.0.20"
   },
   "devDependencies": {
     "nodemon": "2.0.20"
-  },
-  "engines": {
-    "node": "14.x"
   },
   "license": "MIT"
 }
